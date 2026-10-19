@@ -1,0 +1,55 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|c:\\users\\user\\documents\\propuesta de proyecto apjl\\proyect-stex\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|solutionrelative:stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 240,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 117,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "stex-inv-escritorio\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\MainWindow.xaml.cs",
+              "RelativeToolTip": "stex-inv-escritorio\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-19T13:26:26.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
