@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="STEX.Inv.Desktop.Core/STEX.Inv.Desktop.Core.csproj" />
+  <Project Path="STEX.Inv.Desktop.Infrastructure/STEX.Inv.Desktop.Infrastructure.csproj" />
+  <Project Path="STEX.Inv.Desktop.UI/STEX.Inv.Desktop.UI.csproj" />
+</Solution>
