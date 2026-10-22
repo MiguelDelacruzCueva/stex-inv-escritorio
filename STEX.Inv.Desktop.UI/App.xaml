@@ -1,0 +1,25 @@
+﻿<Application x:Class="STEX.Inv.Desktop.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:STEX.Inv.Desktop.Core.ViewModels;assembly=STEX.Inv.Desktop.Core"
+             xmlns:local="clr-namespace:STEX.Inv.Desktop.UI">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Tema Corporativo: Oscuro con acentos DeepPurple (Navy) y Lime (Success) -->
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Mapeo de Navegación: Conecta los ViewModels con sus Vistas (Las crearemos en el siguiente paso) -->
+            <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+                <!-- <local:Views.LoginView /> -->
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+                <!-- <local:Views.DashboardView /> -->
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
