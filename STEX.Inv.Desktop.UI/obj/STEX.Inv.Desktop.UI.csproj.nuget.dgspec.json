@@ -365,16 +365,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net10.0"
+          "net10.0-windows"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net10.0": {
-            "framework": "net10.0",
-            "targetAlias": "net10.0",
+          "net10.0-windows": {
+            "framework": "net10.0-windows7.0",
+            "targetAlias": "net10.0-windows",
             "projectReferences": {
               "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\STEX.Inv.Desktop.Core\\STEX.Inv.Desktop.Core.csproj": {
                 "projectPath": "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\STEX.Inv.Desktop.Core\\STEX.Inv.Desktop.Core.csproj"
@@ -395,9 +395,9 @@
         "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
-        "net10.0": {
-          "framework": "net10.0",
-          "targetAlias": "net10.0",
+        "net10.0-windows": {
+          "framework": "net10.0-windows7.0",
+          "targetAlias": "net10.0-windows",
           "dependencies": {
             "Microsoft.Extensions.Http.Polly": {
               "target": "Package",
@@ -408,6 +408,10 @@
               "version": "[16.4.0, )"
             },
             "Refit.HttpClientFactory": {
+              "target": "Package",
+              "version": "[16.4.0, )"
+            },
+            "Refit.Reflection": {
               "target": "Package",
               "version": "[16.4.0, )"
             },

@@ -504,6 +504,18 @@
           }
         }
       },
+      "Refit.Reflection/16.4.0": {
+        "dependencies": {
+          "ReactiveUI.Primitives": "9.0.0",
+          "Refit": "16.4.0"
+        },
+        "runtime": {
+          "lib/net10.0/Refit.Reflection.dll": {
+            "assemblyVersion": "16.0.0.0",
+            "fileVersion": "16.4.0.0"
+          }
+        }
+      },
       "System.ComponentModel.Annotations/5.0.0": {
         "runtime": {
           "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {
@@ -794,6 +806,13 @@
       "sha512": "sha512-nt42wtkvf27XYpu3rBrHrW+Awd2p9UVqU1vDFBfgVbwb9R2z1hvihbs9LP63EnDXZhuFsMyn79r6V+5pG2vTWQ==",
       "path": "refit.httpclientfactory/16.4.0",
       "hashPath": "refit.httpclientfactory.16.4.0.nupkg.sha512"
+    },
+    "Refit.Reflection/16.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ra0FCocC0lxMhCiM0Tf8XCmVAnaBJjhF0N9YtTDT3hDVK1ITmMt8xvD9IFzkFXyhCALrK8kWR9bz+KvfVfBTcA==",
+      "path": "refit.reflection/16.4.0",
+      "hashPath": "refit.reflection.16.4.0.nupkg.sha512"
     },
     "System.ComponentModel.Annotations/5.0.0": {
       "type": "package",

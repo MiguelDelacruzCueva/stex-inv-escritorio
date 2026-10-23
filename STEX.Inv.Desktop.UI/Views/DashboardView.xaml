@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="STEX.Inv.Desktop.UI.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!-- Fondo color hueso claro estilo web -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#F8F9FA">
+        <StackPanel Margin="32,24,32,32">
+
+            <!-- Cabecera -->
+            <StackPanel Margin="0,0,0,32">
+                <TextBlock Text="Panel Principal" FontSize="34" FontWeight="Black" 
+                           Foreground="#212529"/>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <materialDesign:PackIcon Kind="StorefrontOutline" Width="18" Height="18" 
+                                             Foreground="#6C757D" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding AlmacenNombre}" FontSize="15" FontWeight="Medium"
+                               Foreground="#6C757D" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Tarjetas de Métricas -->
+            <UniformGrid Columns="3" Margin="0,0,0,24">
+
+                <!-- Tarjeta Materiales -->
+                <Border Background="#FFFFFF" CornerRadius="12" Padding="24" Margin="0,0,16,0"
+                        Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="PackageVariantClosed" Width="36" Height="36" 
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,0,12"/>
+                        <TextBlock Text="MATERIALES" FontSize="12" FontWeight="Bold" Foreground="#6C757D"/>
+                        <TextBlock Text="{Binding MaterialesCount}" FontSize="42" FontWeight="Black" Foreground="#212529"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tarjeta Operarios -->
+                <Border Background="#FFFFFF" CornerRadius="12" Padding="24" Margin="0,0,16,0"
+                        Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="AccountHardHat" Width="36" Height="36" 
+                                                 Foreground="{DynamicResource SecondaryHueMidBrush}" Margin="0,0,0,12"/>
+                        <TextBlock Text="OPERARIOS" FontSize="12" FontWeight="Bold" Foreground="#6C757D"/>
+                        <TextBlock Text="{Binding OperariosCount}" FontSize="42" FontWeight="Black" Foreground="#212529"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tarjeta Campañas -->
+                <Border Background="#FFFFFF" CornerRadius="12" Padding="24"
+                        Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="CalendarCheck" Width="36" Height="36" 
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,0,0,12"/>
+                        <TextBlock Text="CAMPAÑAS" FontSize="12" FontWeight="Bold" Foreground="#6C757D"/>
+                        <TextBlock Text="{Binding CampanasCount}" FontSize="42" FontWeight="Black" Foreground="#212529"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Tarjeta de Campaña Actual -->
+            <Border Background="#FFFFFF" CornerRadius="12" Padding="24" Margin="0,0,24,24"
+                    Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon Grid.Column="0" Kind="Target" Width="48" Height="48" 
+                                             Foreground="{DynamicResource SecondaryHueMidBrush}" 
+                                             VerticalAlignment="Center" Margin="0,0,24,0"/>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="CAMPAÑA ACTIVA" FontSize="12" FontWeight="Bold" Foreground="#6C757D"/>
+                        <TextBlock Text="{Binding CampanaActual}" FontSize="22" FontWeight="Bold" 
+                                   Foreground="#212529" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Estado de Sincronización -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <materialDesign:PackIcon Kind="CloudSyncOutline" Width="18" Height="18" 
+                                         Foreground="#6C757D" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock Text="{Binding UltimaSyncText}" FontSize="13"
+                           Foreground="#6C757D" VerticalAlignment="Center"/>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,114 @@
+<UserControl x:Class="STEX.Inv.Desktop.UI.Views.OperatorSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}" Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Cabecera -->
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,20">
+            <StackPanel DockPanel.Dock="Left">
+                <TextBlock Text="STEX-INV" FontSize="24" FontWeight="Bold"
+                           Foreground="{DynamicResource MaterialDesign.Brush.Primary}"/>
+                <TextBlock Text="{Binding WarehouseName}" FontSize="13"
+                           Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+            </StackPanel>
+
+            <Button DockPanel.Dock="Right"
+                    Content="Sincronizar"
+                    Command="{Binding SyncCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsBusy}"
+                    materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsBusy}"/>
+        </DockPanel>
+
+        <!-- Aviso de sesión / sincronización -->
+        <Border Grid.Row="1" CornerRadius="6" Padding="12,10" Margin="0,0,0,16"
+                Background="#33FF9800"
+                Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right"
+                        Content="Re-vincular"
+                        Command="{Binding ReenrollCommand}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="12,0,0,0"/>
+                <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource MaterialDesignBody}"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Buscador -->
+        <TextBox Grid.Row="2"
+                 materialDesign:HintAssist.Hint="Buscar operario..."
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,0,0,16"/>
+
+        <!-- Lista de operarios -->
+        <Grid Grid.Row="3">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Operators}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="190" Height="120" Margin="0,0,12,12" Padding="0"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Command="{Binding DataContext.SelectOperatorCommand,
+                                                      RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}">
+                                <Border Background="{DynamicResource MaterialDesignCardBackground}"
+                                        CornerRadius="8" Padding="16"
+                                        Width="190" Height="120">
+                                    <StackPanel>
+                                        <Border Width="46" Height="46" CornerRadius="23"
+                                                HorizontalAlignment="Left"
+                                                Background="{DynamicResource MaterialDesign.Brush.Primary}">
+                                            <TextBlock Text="{Binding Iniciales}"
+                                                       Foreground="White" FontSize="16" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="{Binding NombreCompleto}"
+                                                   Margin="0,12,0,0"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource MaterialDesignBody}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextWrapping="NoWrap"/>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <TextBlock Text="No hay operarios sincronizados para este almacén."
+                       FontSize="15"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Foreground="{DynamicResource MaterialDesignBodyLight}"
+                       Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+
+        <!-- Pie -->
+        <DockPanel Grid.Row="4" Margin="0,20,0,0" LastChildFill="False">
+            <Button DockPanel.Dock="Left"
+                    Content="Desvincular equipo"
+                    Command="{Binding UnbindCommand}"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+        </DockPanel>
+    </Grid>
+</UserControl>
