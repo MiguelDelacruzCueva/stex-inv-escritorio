@@ -1,0 +1,39 @@
+namespace STEX.Inv.Desktop.Core.Models;
+
+/// <summary>
+/// Estado local completo del equipo, cifrado en disco con DPAPI.
+/// </summary>
+public sealed class LocalState
+{
+    public DeviceSession? Device { get; set; }
+
+    public List<Operario> Operarios { get; set; } = new();
+
+    public List<CampanaResumen> Campanas { get; set; } = new();
+
+    public int MaterialesCount { get; set; }
+
+    public DateTimeOffset? LastSyncUtc { get; set; }
+
+    public string? LastSyncError { get; set; }
+
+    public Dictionary<Guid, PinAttempt> PinAttempts { get; set; } = new();
+}
+
+public sealed class CampanaResumen
+{
+    public Guid Id { get; set; }
+
+    public string Nombre { get; set; } = string.Empty;
+
+    public DateOnly? FechaInicio { get; set; }
+
+    public DateOnly? FechaFin { get; set; }
+}
+
+public sealed class PinAttempt
+{
+    public int FailedCount { get; set; }
+
+    public DateTimeOffset? LockedUntilUtc { get; set; }
+}

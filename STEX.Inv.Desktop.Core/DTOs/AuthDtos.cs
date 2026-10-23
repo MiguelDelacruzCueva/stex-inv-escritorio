@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace STEX.Inv.Desktop.Core.DTOs;
 
@@ -20,7 +17,7 @@ public class AuthResponseDto
     public string AccessToken { get; set; } = string.Empty;
 
     [JsonPropertyName("user")]
-    public UserProfileDto User { get; set; } = new();
+    public UserProfileDto? User { get; set; }
 }
 
 public class UserProfileDto
@@ -33,4 +30,13 @@ public class UserProfileDto
 
     [JsonPropertyName("rol")]
     public string Rol { get; set; } = string.Empty;
+
+    [JsonPropertyName("almacen_id")]
+    public Guid? AlmacenId { get; set; }
+
+    [JsonPropertyName("almacen_nombre")]
+    public string? AlmacenNombre { get; set; }
+
+    [JsonPropertyName("almacen_codigo")]
+    public string? AlmacenCodigo { get; set; }
 }

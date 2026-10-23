@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using STEX.Inv.Desktop.Core.DTOs;
 
 namespace STEX.Inv.Desktop.Core.Interfaces;
 
 public interface IAuthService
 {
-    Task<bool> LoginAsync(string email, string password);
-    Task LogoutAsync();
+    /// <summary>
+    /// Autentica al usuario contra la API y, si tiene éxito, guarda el token de forma segura.
+    /// </summary>
+    Task<LoginResult> LoginAsync(string email, string password);
 }
