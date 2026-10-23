@@ -1,0 +1,2 @@
+Id. de problema,Descripción,Estado,Gravedad,Puntos de la historia,Ruta de acceso del proyecto,Tipo de ubicación,Ruta de acceso,Línea,Columna,Id. de incidente,Vínculo de ayuda,Nombre del ensamblado,Versión de ensamblado,Clave pública de ensamblado,Fragmento
+Pkg.0001,Project references an upgraded package,Active,Information,0,STEX.Inv.Desktop.Infrastructure.csproj,File,STEX.Inv.Desktop.Infrastructure.csproj,,,Refit.HttpClientFactory 7.0.0,,,,,"Refit.HttpClientFactory, 7.0.0"

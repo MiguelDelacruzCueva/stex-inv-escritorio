@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\User\\Documents\\Propuesta de proyecto APJL\\PROYECT-STEX\\stex-inv-escritorio\\stex-inv-escritorio\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|c:\\users\\user\\documents\\propuesta de proyecto apjl\\proyect-stex\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|solutionrelative:stex-inv-escritorio\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{F2574DAA-C293-7154-6803-CB5638224EDE}|stex-inv-escritorio\\stex-inv-escritorio.csproj|c:\\users\\user\\documents\\propuesta de proyecto apjl\\proyect-stex\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F2574DAA-C293-7154-6803-CB5638224EDE}|stex-inv-escritorio\\stex-inv-escritorio.csproj|solutionrelative:stex-inv-escritorio\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|c:\\users\\user\\documents\\propuesta de proyecto apjl\\proyect-stex\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{23667C26-2228-45E5-84D6-AB0E83101A2A}|stex-inv-escritorio\\stex-inv-escritorio.csproj|solutionrelative:stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F2574DAA-C293-7154-6803-CB5638224EDE}|stex-inv-escritorio\\stex-inv-escritorio.csproj|c:\\users\\user\\documents\\propuesta de proyecto apjl\\proyect-stex\\stex-inv-escritorio\\stex-inv-escritorio\\stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F2574DAA-C293-7154-6803-CB5638224EDE}|stex-inv-escritorio\\stex-inv-escritorio.csproj|solutionrelative:stex-inv-escritorio\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,8 +32,12 @@
         },
         {
           "DockedHeight": 117,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -58,10 +62,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-10-19T13:26:26.317Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
