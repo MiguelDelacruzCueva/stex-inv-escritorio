@@ -49,3 +49,5 @@ $RECYCLE.BIN/
 *.local.json
 secrets.json
 .env
+DOCS_APP_ESCRITORIO.md
+devmobil.md
