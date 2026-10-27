@@ -7,73 +7,226 @@
              PreviewKeyDown="OnPreviewKeyDown">
 
     <UserControl.Resources>
-        <Style x:Key="KeypadButton" TargetType="Button"
-               BasedOn="{StaticResource MaterialDesignFlatButton}">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Height" Value="62"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="MinWidth" Value="64"/>
-            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+        <SolidColorBrush x:Key="PinBackgroundBrush" Color="#F0F2F5" />
+        <SolidColorBrush x:Key="PinSurfaceBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="PinBorderBrush" Color="#E4E6E8" />
+        <SolidColorBrush x:Key="PinTextBrush" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="PinMutedBrush" Color="#6B7280" />
+        <SolidColorBrush x:Key="PinAccentBrush" Color="#3F51B5" />
+        <SolidColorBrush x:Key="PinAccentSoftBrush" Color="#EEF2FF" />
+
+        <Style x:Key="PinKeypadButton" TargetType="Button">
+            <Setter Property="Height" Value="52" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="FontSize" Value="21" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource PinTextBrush}" />
+            <Setter Property="Background" Value="#F8FAFC" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{StaticResource PinBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="{StaticResource PinAccentSoftBrush}" />
+                                <Setter TargetName="Root" Property="BorderBrush" Value="#C7D2FE" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="#E0E7FF" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource PinAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Root" Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <Grid Background="{StaticResource PinBackgroundBrush}">
         <Button Content="← Volver"
                 Command="{Binding BackCommand}"
                 Style="{StaticResource MaterialDesignFlatButton}"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                Margin="24,20,0,0"/>
+                Foreground="#4B5563"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Height="36"
+                Padding="10,0"
+                Margin="24,20,0,0" />
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="320">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="420">
+            <Border Background="{StaticResource PinSurfaceBrush}"
+                    BorderBrush="{StaticResource PinBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="16"
+                    Padding="32">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000"
+                                      Direction="270"
+                                      ShadowDepth="2"
+                                      BlurRadius="14"
+                                      Opacity="0.06" />
+                </Border.Effect>
 
-            <Border Width="72" Height="72" CornerRadius="36"
-                    HorizontalAlignment="Center"
-                    Background="{DynamicResource MaterialDesign.Brush.Primary}">
-                <TextBlock Text="{Binding Initials}"
-                           Foreground="White" FontSize="24" FontWeight="Bold"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <!-- Operario -->
+                    <Border Width="68" Height="68" CornerRadius="34"
+                            HorizontalAlignment="Center"
+                            Background="{StaticResource PinAccentBrush}">
+                        <TextBlock Text="{Binding Initials}"
+                                   Foreground="White"
+                                   FontSize="23" FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <TextBlock Text="{Binding OperatorName}"
+                               FontSize="22" FontWeight="Bold"
+                               Foreground="{StaticResource PinTextBrush}"
+                               HorizontalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"
+                               Margin="0,14,0,4" />
+
+                    <TextBlock Text="Ingresa tu PIN de 4 dígitos"
+                               FontSize="13"
+                               Foreground="{StaticResource PinMutedBrush}"
+                               HorizontalAlignment="Center" />
+
+                    <!-- Indicador de PIN -->
+                    <Border Background="#F8FAFC"
+                            BorderBrush="{StaticResource PinBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Height="56"
+                            Margin="0,20,0,16">
+                        <TextBlock Text="{Binding PinDots}"
+                                   FontSize="26"
+                                   Foreground="{StaticResource PinTextBrush}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <!-- Error -->
+                    <Border Background="#FEF2F2"
+                            BorderBrush="#FECACA"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="10,8"
+                            Margin="0,0,0,8"
+                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Grid.Column="0"
+                                                     Kind="AlertCircleOutline"
+                                                     Width="16" Height="16"
+                                                     Foreground="#B91C1C"
+                                                     VerticalAlignment="Center"
+                                                     Margin="0,0,8,0" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding ErrorMessage}"
+                                       FontSize="12"
+                                       Foreground="#B91C1C"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Bloqueo temporal -->
+                    <Border Background="#FFF7E6"
+                            BorderBrush="#F59E0B"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="10,8"
+                            Margin="0,0,0,8"
+                            Visibility="{Binding LockMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Grid.Column="0"
+                                                     Kind="LockOutline"
+                                                     Width="16" Height="16"
+                                                     Foreground="#B45309"
+                                                     VerticalAlignment="Center"
+                                                     Margin="0,0,8,0" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding LockMessage}"
+                                       FontSize="12"
+                                       Foreground="#92400E"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Teclado -->
+                    <UniformGrid Columns="3" Margin="0,12,0,0">
+                        <Button Content="1" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="1" />
+                        <Button Content="2" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="2" />
+                        <Button Content="3" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="3" />
+                        <Button Content="4" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="4" />
+                        <Button Content="5" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="5" />
+                        <Button Content="6" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="6" />
+                        <Button Content="7" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="7" />
+                        <Button Content="8" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="8" />
+                        <Button Content="9" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="9" />
+                        <Button Content="C" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding ClearCommand}" ToolTip="Limpiar" />
+                        <Button Content="0" Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding DigitCommand}" CommandParameter="0" />
+                        <Button Style="{StaticResource PinKeypadButton}"
+                                Command="{Binding BackspaceCommand}" ToolTip="Borrar">
+                            <materialDesign:PackIcon Kind="BackspaceOutline"
+                                                     Width="22" Height="22"
+                                                     Foreground="{StaticResource PinTextBrush}" />
+                        </Button>
+                    </UniformGrid>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,16,0,0">
+                        <materialDesign:PackIcon Kind="ShieldLockOutline"
+                                                 Width="15" Height="15"
+                                                 Foreground="{StaticResource PinMutedBrush}"
+                                                 VerticalAlignment="Center"
+                                                 Margin="0,0,6,0" />
+                        <TextBlock Text="Validación local y sin conexión"
+                                   FontSize="11"
+                                   Foreground="{StaticResource PinMutedBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
             </Border>
-
-            <TextBlock Text="{Binding OperatorName}"
-                       FontSize="20" FontWeight="SemiBold"
-                       HorizontalAlignment="Center" Margin="0,16,0,4"/>
-
-            <TextBlock Text="Ingresa tu PIN"
-                       HorizontalAlignment="Center"
-                       Foreground="{DynamicResource MaterialDesignBodyLight}"
-                       Margin="0,0,0,20"/>
-
-            <TextBlock Text="{Binding PinDots}"
-                       FontSize="30"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,12"/>
-
-            <TextBlock Text="{Binding ErrorMessage}"
-                       Foreground="{DynamicResource MaterialDesign.Brush.ValidationError}"
-                       TextWrapping="Wrap"
-                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
-
-            <TextBlock Text="{Binding LockMessage}"
-                       Foreground="{DynamicResource MaterialDesign.Brush.ValidationError}"
-                       FontWeight="SemiBold"
-                       TextWrapping="Wrap"
-                       HorizontalAlignment="Center" Margin="0,0,0,4"
-                       Visibility="{Binding LockMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
-
-            <UniformGrid Columns="3" Margin="0,16,0,0" HorizontalAlignment="Center">
-                <Button Content="1" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="1"/>
-                <Button Content="2" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="2"/>
-                <Button Content="3" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="3"/>
-                <Button Content="4" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="4"/>
-                <Button Content="5" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="5"/>
-                <Button Content="6" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="6"/>
-                <Button Content="7" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="7"/>
-                <Button Content="8" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="8"/>
-                <Button Content="9" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="9"/>
-                <Button Content="C" Style="{StaticResource KeypadButton}" Command="{Binding ClearCommand}"/>
-                <Button Content="0" Style="{StaticResource KeypadButton}" Command="{Binding DigitCommand}" CommandParameter="0"/>
-                <Button Content="⌫" Style="{StaticResource KeypadButton}" Command="{Binding BackspaceCommand}"/>
-            </UniformGrid>
         </StackPanel>
     </Grid>
 </UserControl>

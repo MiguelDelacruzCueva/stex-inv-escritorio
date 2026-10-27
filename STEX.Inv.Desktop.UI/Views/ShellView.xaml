@@ -3,72 +3,260 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <Grid Background="{DynamicResource MaterialDesignPaper}">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ShellBackgroundBrush" Color="#F0F2F5" />
+        <SolidColorBrush x:Key="ShellSurfaceBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ShellBorderBrush" Color="#E4E6E8" />
+        <SolidColorBrush x:Key="ShellTextBrush" Color="#1A1A1A" />
+        <SolidColorBrush x:Key="ShellMutedBrush" Color="#6B7280" />
+        <SolidColorBrush x:Key="ShellAccentBrush" Color="#3F51B5" />
+        <SolidColorBrush x:Key="ShellAccentSoftBrush" Color="#EEF2FF" />
+        <SolidColorBrush x:Key="ShellAccentDarkBrush" Color="#312E81" />
+
+        <Style x:Key="ShellNavItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="14,11" />
+            <Setter Property="Margin" Value="8,2" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border x:Name="Accent"
+                                        Grid.Column="0"
+                                        Width="4" Height="20"
+                                        CornerRadius="2"
+                                        Background="{StaticResource ShellAccentBrush}"
+                                        Visibility="Collapsed"
+                                        VerticalAlignment="Center" />
+
+                                <ContentPresenter Grid.Column="1"
+                                                  Margin="12,0,0,0"
+                                                  VerticalAlignment="Center" />
+
+                                <materialDesign:PackIcon x:Name="Chevron"
+                                                         Grid.Column="2"
+                                                         Kind="ChevronRight"
+                                                         Width="16" Height="16"
+                                                         Foreground="#D1D5DB"
+                                                         VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="#F8FAFC" />
+                                <Setter TargetName="Chevron" Property="Foreground" Value="#9CA3AF" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Root" Property="Background" Value="{StaticResource ShellAccentSoftBrush}" />
+                                <Setter TargetName="Accent" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Chevron" Property="Foreground" Value="{StaticResource ShellAccentBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource ShellAccentDarkBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource ShellAccentBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource ShellBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="76" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Cabecera -->
-        <Border Grid.Row="0" Background="{DynamicResource MaterialDesignCardBackground}">
-            <DockPanel Margin="24,0" LastChildFill="False">
-                <TextBlock Text="STEX-INV"
-                           FontSize="20" FontWeight="Bold"
-                           Foreground="{DynamicResource MaterialDesign.Brush.Primary}"
-                           VerticalAlignment="Center"
-                           DockPanel.Dock="Left"/>
+        <Border Grid.Row="0"
+                Background="{StaticResource ShellSurfaceBrush}"
+                BorderBrush="{StaticResource ShellBorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="24,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding WarehouseName}"
-                               Foreground="{DynamicResource MaterialDesignBodyLight}"
-                               Margin="0,0,20,0" VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding OperatorName}"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"/>
+                <!-- Marca -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" CornerRadius="10"
+                            Background="{StaticResource ShellAccentBrush}">
+                        <materialDesign:PackIcon Kind="Warehouse"
+                                                 Width="22" Height="22"
+                                                 Foreground="White"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="STEX-INV"
+                                   FontSize="18" FontWeight="Bold"
+                                   Foreground="{StaticResource ShellTextBrush}" />
+                        <TextBlock Text="Gestión de inventario"
+                                   FontSize="11"
+                                   Foreground="{StaticResource ShellMutedBrush}"
+                                   Margin="0,1,0,0" />
+                    </StackPanel>
                 </StackPanel>
-            </DockPanel>
+
+                <!-- Contexto de sesión -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#F8FAFC"
+                            BorderBrush="#E2E8F0"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="12,7"
+                            Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="StorefrontOutline"
+                                                     Width="16" Height="16"
+                                                     Foreground="{StaticResource ShellMutedBrush}"
+                                                     VerticalAlignment="Center"
+                                                     Margin="0,0,8,0" />
+                            <TextBlock Text="{Binding WarehouseName}"
+                                       FontSize="13"
+                                       Foreground="#374151"
+                                       MaxWidth="220"
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#F8FAFC"
+                            BorderBrush="#E2E8F0"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="8,6">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="24" Height="24" CornerRadius="12"
+                                    Background="{StaticResource ShellAccentSoftBrush}"
+                                    Margin="0,0,8,0">
+                                <materialDesign:PackIcon Kind="AccountHardHat"
+                                                         Width="14" Height="14"
+                                                         Foreground="{StaticResource ShellAccentBrush}"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center" />
+                            </Border>
+                            <TextBlock Text="{Binding OperatorName}"
+                                       FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{StaticResource ShellTextBrush}"
+                                       MaxWidth="180"
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
         </Border>
 
         <!-- Cuerpo -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- Sidebar -->
-            <Border Grid.Column="0" Background="{DynamicResource MaterialDesignCardBackground}">
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Bottom" Margin="8,8,8,16">
-                        <Button Content="Cerrar sesión"
-                                Command="{Binding LogoutCommand}"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                HorizontalContentAlignment="Left"/>
-                        <Button Content="Desvincular equipo"
-                                Command="{Binding UnbindCommand}"
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Foreground="{DynamicResource MaterialDesignBodyLight}"
-                                HorizontalContentAlignment="Left"/>
-                    </StackPanel>
+            <Border Grid.Column="0"
+                    Background="{StaticResource ShellSurfaceBrush}"
+                    BorderBrush="{StaticResource ShellBorderBrush}"
+                    BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                    <ListBox ItemsSource="{Binding Modules}"
+                    <TextBlock Grid.Row="0"
+                               Text="MENÚ PRINCIPAL"
+                               Margin="24,24,0,8"
+                               FontSize="11" FontWeight="Bold"
+                               Foreground="#9CA3AF" />
+
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Modules}"
                              SelectedItem="{Binding SelectedModule}"
-                             DisplayMemberPath="Title"
                              Background="Transparent"
                              BorderThickness="0"
-                             Margin="4,16,4,0">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                <Setter Property="Padding" Value="14,12"/>
-                                <Setter Property="FontSize" Value="14"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
+                             Padding="0"
+                             ItemContainerStyle="{StaticResource ShellNavItemStyle}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
-                </DockPanel>
+
+                    <StackPanel Grid.Row="2" Margin="12,0,12,16">
+                        <Border Height="1"
+                                Background="{StaticResource ShellBorderBrush}"
+                                Margin="8,0,8,12" />
+
+                        <Button Command="{Binding LogoutCommand}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,0"
+                                Height="42"
+                                Foreground="#374151">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="LogoutVariant"
+                                                         Width="18" Height="18"
+                                                         Foreground="#374151"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,10,0" />
+                                <TextBlock Text="Cerrar sesión"
+                                           Foreground="#374151"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button Command="{Binding UnbindCommand}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                HorizontalContentAlignment="Left"
+                                Padding="12,0"
+                                Height="42"
+                                Foreground="#B91C1C">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="LinkOff"
+                                                         Width="18" Height="18"
+                                                         Foreground="#B91C1C"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,10,0" />
+                                <TextBlock Text="Desvincular equipo"
+                                           Foreground="#B91C1C"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </Border>
 
             <!-- Módulo activo -->
-            <ContentControl Grid.Column="1" Content="{Binding CurrentModule}"/>
+            <ContentControl Grid.Column="1"
+                            Content="{Binding CurrentModule}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>
