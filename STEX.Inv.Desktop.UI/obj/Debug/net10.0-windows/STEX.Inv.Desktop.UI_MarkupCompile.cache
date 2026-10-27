@@ -1,5 +1,5 @@
 ﻿STEX.Inv.Desktop.UI
-
+1.0.0.0
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_O
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\App.xaml
 7994188715
 221759042845
-12-432284926
+14-325852409
 249-232679636
 MainWindow.xaml;Views\DashboardView.xaml;Views\EnrollmentView.xaml;Views\OperatorSelectionView.xaml;Views\PinEntryView.xaml;Views\PlaceholderView.xaml;Views\ShellView.xaml;
 
-False
+True
 
