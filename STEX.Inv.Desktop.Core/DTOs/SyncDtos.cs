@@ -42,10 +42,10 @@ public sealed class SyncCampanaDto
     public string Nombre { get; set; } = string.Empty;
 
     [JsonPropertyName("fecha_inicio")]
-    public DateOnly? FechaInicio { get; set; }
+    public DateTimeOffset? FechaInicio { get; set; }
 
     [JsonPropertyName("fecha_fin")]
-    public DateOnly? FechaFin { get; set; }
+    public DateTimeOffset? FechaFin { get; set; }
 }
 
 public sealed class SyncAlmacenDto
