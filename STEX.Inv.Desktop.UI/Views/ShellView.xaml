@@ -202,8 +202,20 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Title}"
-                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="{Binding Icon}"
+                                                             Width="20"
+                                                             Height="20"
+                                                             Margin="0,0,12,0"
+                                                             VerticalAlignment="Center"
+                                                             Foreground="{Binding Foreground,
+                                                                 RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+
+                                    <TextBlock Text="{Binding Title}"
+                                               VerticalAlignment="Center"
+                                               Foreground="{Binding Foreground,
+                                                   RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />            
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
