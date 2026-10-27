@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("STEX.Inv.Desktop.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94b343b06ee3d54bc418948bc6fc42c00778e2a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a260c2642e184868c122a85a2a0ef5977ad7b71")]
 [assembly: System.Reflection.AssemblyProductAttribute("STEX.Inv.Desktop.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("STEX.Inv.Desktop.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
