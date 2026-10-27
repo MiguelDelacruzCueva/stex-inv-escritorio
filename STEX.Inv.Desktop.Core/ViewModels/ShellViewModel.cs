@@ -30,11 +30,10 @@ public partial class ShellViewModel : ViewModelBase
 
     public ObservableCollection<NavModule> Modules { get; } = new()
     {
-        new("dashboard", "Panel"),
-        new("catalog", "Catálogo"),
-        new("campaigns", "Campañas"),
-        new("staff", "Personal"),
-        new("counts", "Conteos")
+    new("counts", "Conteo", "ClipboardListOutline"),
+    new("books", "Libros", "BookOpenVariant"),
+    new("sync", "Sync", "CloudSyncOutline"),
+    new("profile", "Perfil", "AccountCircleOutline")
     };
 
     public ShellViewModel(
@@ -77,19 +76,22 @@ public partial class ShellViewModel : ViewModelBase
         {
             ViewModelBase? module = key switch
             {
-                "dashboard" => Resolve<DashboardViewModel>(),
-                "catalog" => await CreatePlaceholderAsync(
-                    "Catálogo de materiales",
-                    "Alta, edición y activación de materiales del almacén."),
-                "campaigns" => await CreatePlaceholderAsync(
-                    "Campañas de inventario",
-                    "Creación y seguimiento de campañas de conteo."),
-                "staff" => await CreatePlaceholderAsync(
-                    "Personal de planta",
-                    "Operarios del almacén, generación y actualización de PINs."),
                 "counts" => await CreatePlaceholderAsync(
-                    "Libros de conteo",
-                    "Registro y envío de conteos físicos."),
+                    "Conteo",
+                    "Consulta y registra los conteos físicos del inventario."),
+
+                "books" => await CreatePlaceholderAsync(
+                    "Libros",
+                    "Consulta los libros y registros asociados al inventario."),
+
+                "sync" => await CreatePlaceholderAsync(
+                    "Sincronización",
+                    "Sincroniza la información local con el sistema central."),
+
+                "profile" => await CreatePlaceholderAsync(
+                    "Perfil",
+                    $"Información del operario: {OperatorName}."),
+
                 _ => null
             };
 

@@ -11,3 +11,4 @@ C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escrito
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.Core\obj\Debug\net10.0\refint\STEX.Inv.Desktop.Core.dll
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.Core\obj\Debug\net10.0\STEX.Inv.Desktop.Core.pdb
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.Core\obj\Debug\net10.0\ref\STEX.Inv.Desktop.Core.dll
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.Core\obj\Debug\net10.0\STEX.Inv.223D71D3.Up2Date
