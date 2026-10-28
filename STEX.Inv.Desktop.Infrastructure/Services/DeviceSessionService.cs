@@ -32,6 +32,8 @@ public sealed class DeviceSessionService : IDeviceSessionService
         {
             state.Operarios.Clear();
             state.Campanas.Clear();
+            state.Materiales.Clear();
+            state.Conteos.Clear();
             state.PinAttempts.Clear();
             state.MaterialesCount = 0;
             state.LastSyncUtc = null;
