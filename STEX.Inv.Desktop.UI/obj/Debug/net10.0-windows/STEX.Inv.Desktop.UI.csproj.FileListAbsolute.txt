@@ -82,3 +82,11 @@ C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escrito
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\STEX.Inv.Desktop.UI.pdb
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\STEX.Inv.Desktop.UI.genruntimeconfig.cache
 C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\ref\STEX.Inv.Desktop.UI.dll
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\ConteoView.baml
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\LibrosView.baml
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\ProfileView.baml
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\SyncView.baml
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\ConteoView.g.cs
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\LibrosView.g.cs
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\ProfileView.g.cs
+C:\Users\User\Documents\Propuesta de proyecto APJL\PROYECT-STEX\stex-inv-escritorio\stex-inv-escritorio\STEX.Inv.Desktop.UI\obj\Debug\net10.0-windows\Views\SyncView.g.cs
