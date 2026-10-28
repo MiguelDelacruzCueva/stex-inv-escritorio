@@ -9,7 +9,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark"
+                <materialDesign:BundledTheme BaseTheme="Light"
                                              PrimaryColor="DeepPurple"
                                              SecondaryColor="Lime" />
 
@@ -37,6 +37,22 @@
 
             <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
                 <views:DashboardView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ConteoViewModel}">
+                <views:ConteoView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:LibrosViewModel}">
+                <views:LibrosView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:SyncViewModel}">
+                <views:SyncView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+                <views:ProfileView />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type vm:PlaceholderViewModel}">
