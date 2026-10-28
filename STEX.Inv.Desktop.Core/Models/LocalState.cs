@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace STEX.Inv.Desktop.Core.Models;
 
 /// <summary>
@@ -10,6 +12,10 @@ public sealed class LocalState
     public List<Operario> Operarios { get; set; } = new();
 
     public List<CampanaResumen> Campanas { get; set; } = new();
+
+    public List<Material> Materiales { get; set; } = new();
+
+    public List<ConteoLinea> Conteos { get; set; } = new();
 
     public int MaterialesCount { get; set; }
 
@@ -29,6 +35,30 @@ public sealed class CampanaResumen
     public DateTimeOffset? FechaInicio { get; set; }
 
     public DateTimeOffset? FechaFin { get; set; }
+
+    [JsonIgnore]
+    public string RangoFechas
+    {
+        get
+        {
+            if (FechaInicio is null && FechaFin is null)
+            {
+                return "Sin fechas definidas";
+            }
+
+            if (FechaInicio is null)
+            {
+                return $"Hasta {FechaFin!.Value.ToString("dd MMM yyyy")}";
+            }
+
+            if (FechaFin is null)
+            {
+                return $"Desde {FechaInicio.Value.ToString("dd MMM yyyy")}";
+            }
+
+            return $"{FechaInicio.Value.ToString("dd MMM yyyy")} — {FechaFin.Value.ToString("dd MMM yyyy")}";
+        }
+    }
 }
 
 public sealed class PinAttempt
