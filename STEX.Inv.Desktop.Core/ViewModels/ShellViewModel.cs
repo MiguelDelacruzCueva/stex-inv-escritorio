@@ -76,22 +76,10 @@ public partial class ShellViewModel : ViewModelBase
         {
             ViewModelBase? module = key switch
             {
-                "counts" => await CreatePlaceholderAsync(
-                    "Conteo",
-                    "Consulta y registra los conteos físicos del inventario."),
-
-                "books" => await CreatePlaceholderAsync(
-                    "Libros",
-                    "Consulta los libros y registros asociados al inventario."),
-
-                "sync" => await CreatePlaceholderAsync(
-                    "Sincronización",
-                    "Sincroniza la información local con el sistema central."),
-
-                "profile" => await CreatePlaceholderAsync(
-                    "Perfil",
-                    $"Información del operario: {OperatorName}."),
-
+                "counts" => Resolve<ConteoViewModel>(),
+                "books" => Resolve<LibrosViewModel>(),
+                "sync" => Resolve<SyncViewModel>(),
+                "profile" => Resolve<ProfileViewModel>(),
                 _ => null
             };
 

@@ -74,6 +74,10 @@ public partial class App : Application
                 services.AddTransient<PinEntryViewModel>();
                 services.AddTransient<ShellViewModel>();
                 services.AddTransient<DashboardViewModel>();
+                services.AddTransient<ConteoViewModel>();
+                services.AddTransient<LibrosViewModel>();
+                services.AddTransient<SyncViewModel>();
+                services.AddTransient<ProfileViewModel>();
                 services.AddTransient<PlaceholderViewModel>();
 
                 services.AddSingleton<INavigationService>(sp => sp.GetRequiredService<MainViewModel>());

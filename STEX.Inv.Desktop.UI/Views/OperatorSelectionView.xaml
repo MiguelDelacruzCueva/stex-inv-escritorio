@@ -188,6 +188,10 @@
                              Background="{StaticResource OperatorSurfaceBrush}"
                              BorderBrush="{StaticResource OperatorBorderBrush}"
                              CaretBrush="{StaticResource OperatorTextBrush}"
+                             materialDesign:HintAssist.Hint="Escribe un nombre..."
+                             materialDesign:HintAssist.IsFloating="False"
+                             materialDesign:HintAssist.Foreground="#9CA3AF"
+                             materialDesign:HintAssist.Background="{StaticResource OperatorSurfaceBrush}"
                              FontSize="14"
                              Height="48"
                              Padding="12,0"
@@ -232,13 +236,7 @@
                                             BorderThickness="1"
                                             CornerRadius="14"
                                             Padding="20">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-
+                                        <StackPanel>
                                             <Border Width="48" Height="48" CornerRadius="24"
                                                     HorizontalAlignment="Left"
                                                     Background="{StaticResource OperatorAccentSoftBrush}">
@@ -249,16 +247,14 @@
                                                            VerticalAlignment="Center" />
                                             </Border>
 
-                                            <TextBlock Grid.Row="1"
-                                                       Text="{Binding NombreCompleto}"
-                                                       Margin="0,14,0,0"
+                                            <TextBlock Text="{Binding NombreCompleto}"
+                                                       Margin="0,12,0,0"
                                                        FontSize="16" FontWeight="SemiBold"
                                                        Foreground="{StaticResource OperatorTextBrush}"
                                                        TextTrimming="CharacterEllipsis"
                                                        TextWrapping="NoWrap" />
 
-                                            <Border Grid.Row="2"
-                                                    BorderBrush="#F1F5F9"
+                                            <Border BorderBrush="#F1F5F9"
                                                     BorderThickness="0,1,0,0"
                                                     Padding="0,10,0,0"
                                                     Margin="0,12,0,0">
@@ -279,7 +275,7 @@
                                                                              VerticalAlignment="Center" />
                                                 </Grid>
                                             </Border>
-                                        </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </Button>
 

@@ -59,7 +59,18 @@ public sealed class WarehouseSyncService : IWarehouseSyncService
                     FechaFin = c.FechaFin
                 })
                 .ToList();
-            state.MaterialesCount = data.Materiales.Count;
+            state.Materiales = data.Materiales
+                .Where(m => m.Id != Guid.Empty && !string.IsNullOrWhiteSpace(m.Descripcion))
+                .Select(m => new Material
+                {
+                    Id = m.Id,
+                    CodigoInterno = (m.CodigoInterno ?? string.Empty).Trim(),
+                    KardexNumero = m.KardexNumero?.Trim(),
+                    Descripcion = (m.Descripcion ?? string.Empty).Trim(),
+                    Tipo = m.Tipo?.Trim()
+                })
+                .ToList();
+            state.MaterialesCount = state.Materiales.Count;
             state.LastSyncUtc = DateTimeOffset.UtcNow;
             state.LastSyncError = null;
 
