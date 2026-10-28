@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("STEX.Inv.Desktop.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73fb0e21ccc6c7934d5763fbb2f4b5d779f33235")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1905c6d7a456192cf852cb1f2f0a7073380965ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("STEX.Inv.Desktop.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("STEX.Inv.Desktop.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
