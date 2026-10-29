@@ -12,12 +12,16 @@ namespace STEX.Inv.Desktop.Core.ViewModels;
 /// </summary>
 public partial class ConteoViewModel : ViewModelBase
 {
+    private const string SinObservacion = "Sin observación";
+    private const string DefaultPresentacion = "Bultos";
+
     private readonly ILocalStore _localStore;
     private readonly IOperatorSession _operatorSession;
     private readonly IWarehouseSyncService _syncService;
 
     private readonly List<Material> _allMaterials = new();
     private bool _updatingMaterialText;
+    private ConteoLinea? _editingLine;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
@@ -61,13 +65,18 @@ public partial class ConteoViewModel : ViewModelBase
     private string _unidadesText = string.Empty;
 
     [ObservableProperty]
-    private string _presentacionesText = string.Empty;
+    private string _presentacion = DefaultPresentacion;
 
     [ObservableProperty]
     private string _pesoNetoText = string.Empty;
 
     [ObservableProperty]
     private string _observacion = "CRUDO-APJL";
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FormTitle))]
+    [NotifyPropertyChangedFor(nameof(AddButtonText))]
+    private bool _isEditing;
 
     [ObservableProperty]
     private string _statusMessage = string.Empty;
@@ -94,9 +103,17 @@ public partial class ConteoViewModel : ViewModelBase
 
     public IReadOnlyList<string> TiposConteo { get; } = new[] { "Hilo", "Crudo" };
 
-    public IReadOnlyList<string> Observaciones { get; } = new[] { "CRUDO-APJL", "SALDOS" };
+    public IReadOnlyList<string> TiposPresentacion { get; } =
+        new[] { DefaultPresentacion, "Cajas", "Rollos", "Bolsas", "Conos" };
+
+    public IReadOnlyList<string> Observaciones { get; } =
+        new[] { SinObservacion, "CRUDO-APJL", "SALDOS", "Devolución" };
 
     public string CampaignName => SelectedCampaign?.Nombre ?? "Sin campaña";
+
+    public string FormTitle => IsEditing ? "Editar registro" : "Nuevo registro";
+
+    public string AddButtonText => IsEditing ? "Guardar cambios" : "Agregar conteo";
 
     public bool IsHilo
     {
@@ -140,6 +157,8 @@ public partial class ConteoViewModel : ViewModelBase
 
     public override async Task InitializeAsync(object? parameter = null)
     {
+        ClearForm();
+
         var state = await _localStore.LoadAsync();
 
         WarehouseName = state.Device?.AlmacenDisplay ?? "Almacén";
@@ -296,7 +315,14 @@ public partial class ConteoViewModel : ViewModelBase
             }
 
             await InitializeAsync();
-            SetStatus("Datos maestros actualizados.", false);
+            SetStatus(
+                result.UploadedCount switch
+                {
+                    0 => "Datos maestros actualizados.",
+                    1 => "Se subió 1 conteo y se actualizaron los datos maestros.",
+                    _ => $"Se subieron {result.UploadedCount} conteos y se actualizaron los datos maestros."
+                },
+                false);
         }
         finally
         {
@@ -322,10 +348,9 @@ public partial class ConteoViewModel : ViewModelBase
             return;
         }
 
-        if (!int.TryParse(PresentacionesText, NumberStyles.Integer, CultureInfo.CurrentCulture, out var presentaciones)
-            || presentaciones < 0)
+        if (string.IsNullOrWhiteSpace(Presentacion))
         {
-            SetStatus("Ingresa una cantidad de presentaciones válida.", true);
+            SetStatus("Selecciona una presentación.", true);
             return;
         }
 
@@ -336,29 +361,78 @@ public partial class ConteoViewModel : ViewModelBase
         }
 
         var operario = _operatorSession.Current;
-
-        var linea = new ConteoLinea
-        {
-            CampanaId = SelectedCampaign.Id,
-            CampanaNombre = SelectedCampaign.Nombre,
-            OperarioId = operario?.Id ?? Guid.Empty,
-            OperarioNombre = operario?.NombreCompleto ?? "Operario",
-            MaterialId = SelectedMaterial.Id,
-            MaterialCodigo = SelectedMaterial.CodigoInterno,
-            MaterialDescripcion = SelectedMaterial.Descripcion,
-            KardexNumero = SelectedMaterial.KardexNumero,
-            Tipo = TipoConteo,
-            Unidades = unidades,
-            Presentaciones = presentaciones,
-            PesoNeto = pesoNeto,
-            Observacion = Observacion
-        };
+        var observacion = NormalizeObservacion(Observacion);
+        var editing = _editingLine;
 
         IsBusy = true;
 
         try
         {
             var state = await _localStore.LoadAsync();
+
+            if (editing is not null)
+            {
+                var existing = state.Conteos.FirstOrDefault(c => c.Id == editing.Id);
+
+                if (existing is null)
+                {
+                    SetStatus("El registro que intentas editar ya no existe.", true);
+                    return;
+                }
+
+                if (existing.UploadedAtUtc is not null || existing.LibroId is not null)
+                {
+                    SetStatus("Este registro ya inició su subida y no se puede editar.", true);
+                    return;
+                }
+
+                existing.CampanaId = SelectedCampaign.Id;
+                existing.CampanaNombre = SelectedCampaign.Nombre;
+                existing.MaterialId = SelectedMaterial.Id;
+                existing.MaterialCodigo = SelectedMaterial.CodigoInterno;
+                existing.MaterialDescripcion = SelectedMaterial.Descripcion;
+                existing.KardexNumero = SelectedMaterial.KardexNumero;
+                existing.Tipo = TipoConteo;
+                existing.Unidades = unidades;
+                existing.Presentacion = Presentacion;
+                existing.PesoNeto = pesoNeto;
+                existing.Observacion = observacion;
+
+                await _localStore.SaveAsync(state);
+
+                var index = Registros.IndexOf(editing);
+                if (index >= 0)
+                {
+                    Registros[index] = existing;
+                }
+                else
+                {
+                    Registros.Add(existing);
+                }
+
+                UpdateSummary();
+                ClearForm();
+                SetStatus("Conteo actualizado correctamente.", false);
+                return;
+            }
+
+            var linea = new ConteoLinea
+            {
+                CampanaId = SelectedCampaign.Id,
+                CampanaNombre = SelectedCampaign.Nombre,
+                OperarioId = operario?.Id ?? Guid.Empty,
+                OperarioNombre = operario?.NombreCompleto ?? "Operario",
+                MaterialId = SelectedMaterial.Id,
+                MaterialCodigo = SelectedMaterial.CodigoInterno,
+                MaterialDescripcion = SelectedMaterial.Descripcion,
+                KardexNumero = SelectedMaterial.KardexNumero,
+                Tipo = TipoConteo,
+                Unidades = unidades,
+                Presentacion = Presentacion,
+                PesoNeto = pesoNeto,
+                Observacion = observacion
+            };
+
             state.Conteos.Add(linea);
             await _localStore.SaveAsync(state);
 
@@ -375,6 +449,43 @@ public partial class ConteoViewModel : ViewModelBase
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private void Edit(ConteoLinea? linea)
+    {
+        if (linea is null)
+        {
+            return;
+        }
+
+        if (linea.UploadedAtUtc is not null || linea.LibroId is not null)
+        {
+            SetStatus("Este registro ya inició su subida y no se puede editar.", true);
+            return;
+        }
+
+        if (SelectedCampaign is null || linea.CampanaId != SelectedCampaign.Id)
+        {
+            return;
+        }
+
+        TipoConteo = string.Equals(linea.Tipo, "Crudo", StringComparison.OrdinalIgnoreCase)
+            ? "Crudo"
+            : "Hilo";
+        SelectedMaterial = _allMaterials.FirstOrDefault(m => m.Id == linea.MaterialId);
+        UnidadesText = linea.Unidades.ToString(CultureInfo.CurrentCulture);
+        Presentacion = TiposPresentacion.Contains(linea.Presentacion)
+            ? linea.Presentacion
+            : DefaultPresentacion;
+        PesoNetoText = linea.PesoNeto.ToString("0.###", CultureInfo.CurrentCulture);
+        Observacion = string.IsNullOrWhiteSpace(linea.Observacion)
+            ? SinObservacion
+            : linea.Observacion;
+
+        _editingLine = linea;
+        IsEditing = true;
+        SetStatus("Editando registro. Guarda los cambios o limpia el formulario.", false);
     }
 
     private bool CanAdd() => !IsBusy;
@@ -398,6 +509,11 @@ public partial class ConteoViewModel : ViewModelBase
             }
 
             Registros.Remove(linea);
+            if (_editingLine?.Id == linea.Id)
+            {
+                ClearForm();
+            }
+
             UpdateSummary();
             SetStatus("Registro eliminado.", false);
         }
@@ -414,6 +530,8 @@ public partial class ConteoViewModel : ViewModelBase
     [RelayCommand]
     private void ClearForm()
     {
+        _editingLine = null;
+        IsEditing = false;
         SelectedMaterial = null;
         _updatingMaterialText = true;
         MaterialSearchText = string.Empty;
@@ -421,7 +539,7 @@ public partial class ConteoViewModel : ViewModelBase
         ApplyMaterialFilter();
         Kardex = string.Empty;
         UnidadesText = string.Empty;
-        PresentacionesText = string.Empty;
+        Presentacion = DefaultPresentacion;
         PesoNetoText = string.Empty;
         IsMaterialDropDownOpen = false;
     }
@@ -442,6 +560,17 @@ public partial class ConteoViewModel : ViewModelBase
         StatusMessage = message;
         IsError = isError;
         HasStatusMessage = !string.IsNullOrWhiteSpace(message);
+    }
+
+    private static string NormalizeObservacion(string? observacion)
+    {
+        if (string.IsNullOrWhiteSpace(observacion)
+            || string.Equals(observacion, SinObservacion, StringComparison.Ordinal))
+        {
+            return string.Empty;
+        }
+
+        return observacion.Trim();
     }
 
     private static bool TryParseDecimal(string text, out decimal value)

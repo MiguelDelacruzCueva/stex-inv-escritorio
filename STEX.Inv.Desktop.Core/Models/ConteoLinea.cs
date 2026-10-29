@@ -28,11 +28,17 @@ public sealed class ConteoLinea
 
     public int Unidades { get; set; }
 
-    public int Presentaciones { get; set; }
+    public string Presentacion { get; set; } = "Bultos";
 
     public decimal PesoNeto { get; set; }
 
     public string Observacion { get; set; } = string.Empty;
 
     public DateTimeOffset CreatedAtUtc { get; set; } = DateTimeOffset.UtcNow;
+
+    /// <summary>Libro remoto al que se envió esta línea; permite reintentos idempotentes.</summary>
+    public Guid? LibroId { get; set; }
+
+    /// <summary>Se completa solo cuando el servidor confirmó la subida.</summary>
+    public DateTimeOffset? UploadedAtUtc { get; set; }
 }

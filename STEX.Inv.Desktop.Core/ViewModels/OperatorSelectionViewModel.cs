@@ -71,8 +71,8 @@ public partial class OperatorSelectionViewModel : ViewModelBase
 
         if (SessionExpired && string.IsNullOrWhiteSpace(StatusMessage))
         {
-            StatusMessage = "La sesión del almacén venció. Puedes seguir usando los PIN guardados; " +
-                            "un administrador debe re-vincular el equipo para sincronizar.";
+            StatusMessage = "La sesión del almacén venció. Se renovará al sincronizar; " +
+                            "si no es posible, vuelve a vincular el equipo.";
         }
 
         HasStatusMessage = !string.IsNullOrWhiteSpace(StatusMessage) || SessionExpired;
