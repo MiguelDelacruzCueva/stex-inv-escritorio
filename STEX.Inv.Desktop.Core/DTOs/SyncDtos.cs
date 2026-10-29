@@ -99,6 +99,55 @@ public sealed class SyncOperarioDto
     public Guid AlmacenId { get; set; }
 }
 
+/// <summary>
+/// Contrato de <c>POST /api/sync/upload</c>. El <c>LibroId</c> lo genera el
+/// cliente y se reutiliza al reintentar para no duplicar el libro remoto.
+/// </summary>
+public sealed class SyncUploadRequestDto
+{
+    [JsonPropertyName("libro_id")]
+    public Guid LibroId { get; set; }
+
+    [JsonPropertyName("campana_id")]
+    public Guid CampanaId { get; set; }
+
+    [JsonPropertyName("almacen_id")]
+    public Guid AlmacenId { get; set; }
+
+    [JsonPropertyName("detalles")]
+    public List<SyncUploadDetalleDto> Detalles { get; set; } = new();
+}
+
+public sealed class SyncUploadDetalleDto
+{
+    [JsonPropertyName("material_id")]
+    public Guid MaterialId { get; set; }
+
+    [JsonPropertyName("cantidad_unidad")]
+    public int CantidadUnidad { get; set; }
+
+    [JsonPropertyName("peso_neto")]
+    public decimal PesoNeto { get; set; }
+
+    [JsonPropertyName("observacion")]
+    public string? Observacion { get; set; }
+}
+
+public sealed class SyncUploadResponseDto
+{
+    [JsonPropertyName("success")]
+    public bool Success { get; set; }
+
+    [JsonPropertyName("libro_id")]
+    public Guid? LibroId { get; set; }
+
+    [JsonPropertyName("duplicado")]
+    public bool Duplicado { get; set; }
+
+    [JsonPropertyName("error")]
+    public string? Error { get; set; }
+}
+
 public enum SyncStatus
 {
     Success,
@@ -106,7 +155,12 @@ public enum SyncStatus
     Failed
 }
 
-public sealed record SyncResult(SyncStatus Status, string? ErrorMessage = null, int Operarios = 0)
+public sealed record SyncResult(
+    SyncStatus Status,
+    string? ErrorMessage = null,
+    int Operarios = 0,
+    int UploadedCount = 0,
+    int UploadedBooks = 0)
 {
     public bool IsSuccess => Status == SyncStatus.Success;
 }

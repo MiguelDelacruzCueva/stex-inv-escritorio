@@ -31,6 +31,9 @@ public partial class SyncViewModel : ViewModelBase
     private int _conteosCount;
 
     [ObservableProperty]
+    private int _conteosPendientes;
+
+    [ObservableProperty]
     private string _statusMessage = string.Empty;
 
     [ObservableProperty]
@@ -67,7 +70,14 @@ public partial class SyncViewModel : ViewModelBase
             }
 
             await LoadAsync();
-            SetStatus("Datos maestros actualizados correctamente.", false);
+            SetStatus(
+                result.UploadedCount switch
+                {
+                    0 => "Datos maestros actualizados correctamente.",
+                    1 => "Se subió 1 conteo y se actualizaron los datos maestros.",
+                    _ => $"Se subieron {result.UploadedCount} conteos y se actualizaron los datos maestros."
+                },
+                false);
         }
         finally
         {
@@ -86,6 +96,7 @@ public partial class SyncViewModel : ViewModelBase
         OperariosCount = state.Operarios.Count(o => o.Activo);
         CampanasCount = state.Campanas.Count;
         ConteosCount = state.Conteos.Count;
+        ConteosPendientes = state.Conteos.Count(c => c.UploadedAtUtc is null);
         LastSyncText = state.LastSyncUtc is { } last
             ? $"Última sincronización: {last.ToLocalTime():dd/MM/yyyy HH:mm}"
             : "Sin sincronizar";

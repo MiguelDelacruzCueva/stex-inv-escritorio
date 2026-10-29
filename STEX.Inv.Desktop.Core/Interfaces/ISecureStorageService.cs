@@ -9,4 +9,8 @@ public interface ISecureStorageService
     Task SaveTokenAsync(string token);
     Task<string?> GetTokenAsync();
     Task ClearTokenAsync();
+
+    Task SaveRefreshTokenAsync(string token);
+    Task<string?> GetRefreshTokenAsync();
+    Task ClearRefreshTokenAsync();
 }

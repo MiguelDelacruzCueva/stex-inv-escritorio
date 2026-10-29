@@ -8,4 +8,9 @@ public interface IAuthService
     /// Autentica al usuario contra la API y, si tiene éxito, guarda el token de forma segura.
     /// </summary>
     Task<LoginResult> LoginAsync(string email, string password);
+
+    /// <summary>
+    /// Renueva el token de acceso con el refresh token guardado.
+    /// </summary>
+    Task<LoginResult> RefreshAsync();
 }
