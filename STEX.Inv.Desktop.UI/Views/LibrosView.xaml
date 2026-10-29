@@ -27,22 +27,63 @@
                     <TextBlock Text="Libros"
                                FontSize="30" FontWeight="Black"
                                Foreground="{StaticResource LibrosTextBrush}" />
-                    <TextBlock Text="Conteos guardados en este equipo."
+                    <TextBlock Text="Conteos capturados en este equipo y su estado de subida."
                                FontSize="14"
                                Foreground="{StaticResource LibrosMutedBrush}"
                                Margin="0,6,0,0" />
                 </StackPanel>
 
-                <Button Grid.Column="1"
-                        Content="Actualizar"
-                        Command="{Binding RefreshCommand}"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        Foreground="{StaticResource LibrosAccentBrush}"
-                        BorderBrush="{StaticResource LibrosAccentBrush}"
-                        Height="38"
-                        Padding="16,0"
-                        VerticalAlignment="Top" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Content="Exportar CSV"
+                            Command="{Binding ExportCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Foreground="{StaticResource LibrosAccentBrush}"
+                            BorderBrush="{StaticResource LibrosAccentBrush}"
+                            Height="38"
+                            Padding="16,0"
+                            Margin="0,0,8,0" />
+                    <Button Content="Actualizar"
+                            Command="{Binding RefreshCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Foreground="{StaticResource LibrosAccentBrush}"
+                            BorderBrush="{StaticResource LibrosAccentBrush}"
+                            Height="38"
+                            Padding="16,0" />
+                </StackPanel>
             </Grid>
+
+            <Border CornerRadius="8"
+                    Padding="12,10"
+                    Margin="0,16,0,0"
+                    Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#ECFDF5" />
+                        <Setter Property="BorderBrush" Value="#A7F3D0" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsStatusError}" Value="True">
+                                <Setter Property="Background" Value="#FEF2F2" />
+                                <Setter Property="BorderBrush" Value="#FECACA" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <TextBlock Text="{Binding StatusMessage}"
+                           FontSize="12"
+                           TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#047857" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsStatusError}" Value="True">
+                                    <Setter Property="Foreground" Value="#B91C1C" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
 
             <UniformGrid Columns="3" Margin="0,24,0,0">
                 <Border Background="{StaticResource LibrosSurfaceBrush}"
@@ -148,13 +189,32 @@
                                     </StackPanel>
 
                                     <Border Grid.Column="2"
-                                            Background="{StaticResource LibrosAccentSoftBrush}"
                                             CornerRadius="10"
                                             Padding="10,4"
                                             VerticalAlignment="Center">
-                                        <TextBlock Text="Guardado local"
-                                                   FontSize="11" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosAccentBrush}" />
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="{StaticResource LibrosAccentSoftBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Sincronizado}" Value="True">
+                                                        <Setter Property="Background" Value="#ECFDF5" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding EstadoTexto}"
+                                                   FontSize="11" FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{StaticResource LibrosAccentBrush}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Sincronizado}" Value="True">
+                                                            <Setter Property="Foreground" Value="#047857" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                     </Border>
                                 </Grid>
 
@@ -196,6 +256,64 @@
                                                    Margin="0,2,0,0" />
                                     </StackPanel>
                                 </UniformGrid>
+
+                                <Expander Header="Ver detalle"
+                                          Margin="0,14,0,0"
+                                          Foreground="{StaticResource LibrosMutedBrush}">
+                                    <ItemsControl ItemsSource="{Binding Lineas}" Margin="0,8,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="{StaticResource LibrosBorderBrush}"
+                                                        BorderThickness="0,1,0,0"
+                                                        Padding="0,8">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="90" />
+                                                            <ColumnDefinition Width="100" />
+                                                            <ColumnDefinition Width="90" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding MaterialDescripcion}"
+                                                                       FontSize="12" FontWeight="SemiBold"
+                                                                       Foreground="{StaticResource LibrosTextBrush}"
+                                                                       TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{Binding OperarioNombre, StringFormat=Operario: {0}}"
+                                                                       FontSize="11"
+                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Margin="0,2,0,0" />
+                                                            <TextBlock Text="{Binding KardexNumero, StringFormat=Kardex: {0}}"
+                                                                       FontSize="11"
+                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Margin="0,2,0,0" />
+                                                            <TextBlock Text="{Binding Observacion, StringFormat=Observación: {0}}"
+                                                                       FontSize="11"
+                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Margin="0,2,0,0" />
+                                                        </StackPanel>
+
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding Unidades, StringFormat={}{0} unid.}"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Grid.Column="2"
+                                                                   Text="{Binding Presentacion}"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Grid.Column="3"
+                                                                   Text="{Binding PesoNeto, StringFormat={}{0:0.##} kg}"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   VerticalAlignment="Center" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Expander>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

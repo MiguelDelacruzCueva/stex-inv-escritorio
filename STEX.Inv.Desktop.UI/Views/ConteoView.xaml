@@ -329,7 +329,7 @@
                             Padding="24"
                             Margin="0,20,0,0">
                         <StackPanel>
-                            <TextBlock Text="Nuevo registro"
+                            <TextBlock Text="{Binding FormTitle}"
                                        FontSize="17" FontWeight="SemiBold"
                                        Foreground="{StaticResource ConteoTextBrush}" />
                             <TextBlock Text="Completa los datos del material que estás contando."
@@ -419,15 +419,16 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Margin="0,0,12,0">
-                                    <TextBlock Text="Presentaciones"
+                                    <TextBlock Text="Presentación"
                                                Style="{StaticResource ConteoFieldLabel}" />
-                                    <TextBox Text="{Binding PresentacionesText, UpdateSourceTrigger=PropertyChanged}"
-                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                             Background="{StaticResource ConteoSurfaceBrush}"
-                                             Foreground="{StaticResource ConteoTextBrush}"
-                                             BorderBrush="{StaticResource ConteoBorderBrush}"
-                                             CaretBrush="{StaticResource ConteoTextBrush}"
-                                             FontSize="14" />
+                                    <ComboBox ItemsSource="{Binding TiposPresentacion}"
+                                              SelectedItem="{Binding Presentacion}"
+                                              ItemContainerStyle="{StaticResource ConteoComboItemStyle}"
+                                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                              Background="{StaticResource ConteoSurfaceBrush}"
+                                              Foreground="{StaticResource ConteoTextBrush}"
+                                              BorderBrush="{StaticResource ConteoBorderBrush}"
+                                              FontSize="14" />
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2">
@@ -457,7 +458,7 @@
                                       HorizontalAlignment="Left" />
 
                             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                <Button Content="Agregar conteo"
+                                <Button Content="{Binding AddButtonText}"
                                         Command="{Binding AddCommand}"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
                                         Height="42"
@@ -580,7 +581,7 @@
                                                         Binding="{Binding Unidades}"
                                                         Width="70" />
                                     <DataGridTextColumn Header="PRESENT."
-                                                        Binding="{Binding Presentaciones}"
+                                                        Binding="{Binding Presentacion}"
                                                         Width="85" />
                                     <DataGridTextColumn Header="PESO (KG)"
                                                         Binding="{Binding PesoNeto, StringFormat={}{0:0.##}}"
@@ -588,20 +589,33 @@
                                     <DataGridTextColumn Header="OBSERVACIÓN"
                                                         Binding="{Binding Observacion}"
                                                         Width="120" />
-                                    <DataGridTemplateColumn Width="44">
+                                    <DataGridTemplateColumn Width="82">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Command="{Binding DataContext.RemoveLineCommand,
-                                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                        CommandParameter="{Binding}"
-                                                        Style="{StaticResource MaterialDesignFlatButton}"
-                                                        Width="30" Height="30"
-                                                        Padding="0"
-                                                        ToolTip="Eliminar registro">
-                                                    <materialDesign:PackIcon Kind="DeleteOutline"
-                                                                             Width="17" Height="17"
-                                                                             Foreground="#B91C1C" />
-                                                </Button>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Command="{Binding DataContext.EditCommand,
+                                                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                                            Width="30" Height="30"
+                                                            Padding="0"
+                                                            ToolTip="Editar registro">
+                                                        <materialDesign:PackIcon Kind="PencilOutline"
+                                                                                 Width="17" Height="17"
+                                                                                 Foreground="{StaticResource ConteoAccentBrush}" />
+                                                    </Button>
+                                                    <Button Command="{Binding DataContext.RemoveLineCommand,
+                                                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                                            Width="30" Height="30"
+                                                            Padding="0"
+                                                            ToolTip="Eliminar registro">
+                                                        <materialDesign:PackIcon Kind="DeleteOutline"
+                                                                                 Width="17" Height="17"
+                                                                                 Foreground="#B91C1C" />
+                                                    </Button>
+                                                </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

@@ -20,7 +20,7 @@
             <TextBlock Text="Sincronización"
                        FontSize="30" FontWeight="Black"
                        Foreground="{StaticResource SyncTextBrush}" />
-            <TextBlock Text="Actualiza los maestros del almacén y revisa la copia local."
+            <TextBlock Text="Sube los conteos pendientes y actualiza los maestros del almacén."
                        FontSize="14"
                        Foreground="{StaticResource SyncMutedBrush}"
                        Margin="0,6,0,24" />
@@ -149,6 +149,9 @@
                         <TextBlock Text="{Binding ConteosCount}"
                                    FontSize="28" FontWeight="Black"
                                    Foreground="{StaticResource SyncTextBrush}" />
+                        <TextBlock Text="{Binding ConteosPendientes, StringFormat={}{0} pendientes}"
+                                   FontSize="10"
+                                   Foreground="{StaticResource SyncMutedBrush}" />
                     </StackPanel>
                 </Border>
             </UniformGrid>
@@ -221,7 +224,7 @@
                         <TextBlock Text="Conteos guardados localmente"
                                    FontSize="13" FontWeight="SemiBold"
                                    Foreground="{StaticResource SyncTextBrush}" />
-                        <TextBlock Text="Los registros de Conteo se conservan en este equipo. La descarga de maestros no elimina los conteos locales."
+                        <TextBlock Text="Al sincronizar se suben primero los conteos pendientes y luego se actualizan los maestros. Los conteos ya subidos no se envían de nuevo."
                                    FontSize="12"
                                    Foreground="{StaticResource SyncMutedBrush}"
                                    TextWrapping="Wrap"
