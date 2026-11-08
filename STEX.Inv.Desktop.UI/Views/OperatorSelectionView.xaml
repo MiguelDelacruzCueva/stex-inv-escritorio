@@ -4,13 +4,6 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="OperatorBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="OperatorSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="OperatorBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="OperatorTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="OperatorMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="OperatorAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="OperatorAccentSoftBrush" Color="#EEF2FF" />
 
         <Style x:Key="OperatorCardButtonStyle" TargetType="Button"
                BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -28,7 +21,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource OperatorBackgroundBrush}">
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="84" />
             <RowDefinition Height="*" />
@@ -36,8 +29,8 @@
 
         <!-- Cabecera -->
         <Border Grid.Row="0"
-                Background="{StaticResource OperatorSurfaceBrush}"
-                BorderBrush="{StaticResource OperatorBorderBrush}"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
                 BorderThickness="0,0,0,1">
             <Grid Margin="32,0">
                 <Grid.ColumnDefinitions>
@@ -48,20 +41,20 @@
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Width="42" Height="42" CornerRadius="12"
-                            Background="{StaticResource OperatorAccentBrush}">
+                            Background="{DynamicResource AppAccentBrush}">
                         <materialDesign:PackIcon Kind="Warehouse"
                                                  Width="22" Height="22"
-                                                 Foreground="White"
+                                                 Foreground="{DynamicResource AppOnAccentBrush}"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center" />
                     </Border>
                     <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
                         <TextBlock Text="STEX-INV"
                                    FontSize="18" FontWeight="Bold"
-                                   Foreground="{StaticResource OperatorTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <TextBlock Text="{Binding WarehouseName}"
                                    FontSize="12"
-                                   Foreground="{StaticResource OperatorMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    MaxWidth="320"
                                    TextTrimming="CharacterEllipsis"
                                    Margin="0,1,0,0" />
@@ -74,40 +67,40 @@
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Height="40"
                             Padding="12,0"
-                            Foreground="#B91C1C">
+                            Foreground="{DynamicResource AppDangerTextBrush}">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="LinkOff"
                                                      Width="18" Height="18"
-                                                     Foreground="#B91C1C"
+                                                     Foreground="{DynamicResource AppDangerTextBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
                             <TextBlock Text="Desvincular equipo"
-                                       Foreground="#B91C1C"
+                                       Foreground="{DynamicResource AppDangerTextBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
                     <Border Width="1" Height="24"
-                            Background="{StaticResource OperatorBorderBrush}"
+                            Background="{DynamicResource AppBorderBrush}"
                             Margin="10,0,12,0" />
 
                     <Button Command="{Binding SyncCommand}"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="40"
                             Padding="16,0"
-                            Background="{StaticResource OperatorAccentBrush}"
-                            Foreground="White"
+                            Background="{DynamicResource AppAccentBrush}"
+                            Foreground="{DynamicResource AppOnAccentBrush}"
                             BorderThickness="0"
                             materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsBusy}"
                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsBusy}">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="CloudSyncOutline"
                                                      Width="18" Height="18"
-                                                     Foreground="White"
+                                                     Foreground="{DynamicResource AppOnAccentBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
                             <TextBlock Text="Sincronizar"
-                                       Foreground="White"
+                                       Foreground="{DynamicResource AppOnAccentBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
@@ -122,18 +115,18 @@
             <StackPanel Margin="32,28,32,32">
                 <TextBlock Text="Selecciona tu operario"
                            FontSize="30" FontWeight="Black"
-                           Foreground="{StaticResource OperatorTextBrush}" />
+                           Foreground="{DynamicResource AppTextBrush}" />
                 <TextBlock Text="Elige tu nombre para ingresar el PIN de 4 dígitos."
                            FontSize="14"
-                           Foreground="{StaticResource OperatorMutedBrush}"
+                           Foreground="{DynamicResource AppMutedBrush}"
                            Margin="0,6,0,24" />
 
                 <!-- Aviso de sincronización -->
                 <Border CornerRadius="8"
                         Padding="16,14"
                         Margin="0,0,0,16"
-                        Background="#FEF2F2"
-                        BorderBrush="#FECACA"
+                        Background="{DynamicResource AppDangerBackgroundBrush}"
+                        BorderBrush="{DynamicResource AppDangerBorderBrush}"
                         BorderThickness="1"
                         Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
@@ -146,17 +139,17 @@
                         <materialDesign:PackIcon Grid.Column="0"
                                                  Kind="AlertCircleOutline"
                                                  Width="20" Height="20"
-                                                 Foreground="#B91C1C"
+                                                 Foreground="{DynamicResource AppDangerTextBrush}"
                                                  VerticalAlignment="Top"
                                                  Margin="0,1,10,0" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="No se pudo sincronizar"
                                        FontSize="13" FontWeight="SemiBold"
-                                       Foreground="#991B1B" />
+                                       Foreground="{DynamicResource AppDangerTextBrush}" />
                             <TextBlock Text="{Binding StatusMessage}"
                                        FontSize="12"
-                                       Foreground="#B91C1C"
+                                       Foreground="{DynamicResource AppDangerTextBrush}"
                                        TextWrapping="Wrap"
                                        Margin="0,2,0,0" />
                         </StackPanel>
@@ -165,8 +158,8 @@
                                 Content="Re-vincular"
                                 Command="{Binding ReenrollCommand}"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Foreground="#B91C1C"
-                                BorderBrush="#FCA5A5"
+                                Foreground="{DynamicResource AppDangerTextBrush}"
+                                BorderBrush="{DynamicResource AppDangerBorderBrush}"
                                 Height="34"
                                 Padding="12,0"
                                 Margin="14,0,0,0" />
@@ -179,19 +172,19 @@
                     <TextBlock Text="Buscar operario" 
                                FontSize="13"
                                FontWeight="SemiBold"
-                               Foreground="{StaticResource OperatorTextBrush}"
+                               Foreground="{DynamicResource AppTextBrush}"
                                Margin="0,0,0,6" />
 
                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                             Foreground="{StaticResource OperatorTextBrush}"
-                             Background="{StaticResource OperatorSurfaceBrush}"
-                             BorderBrush="{StaticResource OperatorBorderBrush}"
-                             CaretBrush="{StaticResource OperatorTextBrush}"
+                             Foreground="{DynamicResource AppTextBrush}"
+                             Background="{DynamicResource AppSurfaceBrush}"
+                             BorderBrush="{DynamicResource AppBorderBrush}"
+                             CaretBrush="{DynamicResource AppTextBrush}"
                              materialDesign:HintAssist.Hint="Escribe un nombre..."
                              materialDesign:HintAssist.IsFloating="False"
-                             materialDesign:HintAssist.Foreground="#9CA3AF"
-                             materialDesign:HintAssist.Background="{StaticResource OperatorSurfaceBrush}"
+                             materialDesign:HintAssist.Foreground="{DynamicResource AppMutedBrush}"
+                             materialDesign:HintAssist.Background="{DynamicResource AppSurfaceBrush}"
                              FontSize="14"
                              Height="48"
                              Padding="12,0"
@@ -202,16 +195,16 @@
                 <StackPanel Orientation="Horizontal" Margin="0,24,0,12">
                     <TextBlock Text="Operarios"
                                FontSize="15" FontWeight="SemiBold"
-                               Foreground="{StaticResource OperatorTextBrush}"
+                               Foreground="{DynamicResource AppTextBrush}"
                                VerticalAlignment="Center" />
-                    <Border Background="{StaticResource OperatorAccentSoftBrush}"
+                    <Border Background="{DynamicResource AppAccentSoftBrush}"
                             CornerRadius="10"
                             Padding="8,2"
                             Margin="8,0,0,0"
                             VerticalAlignment="Center">
                         <TextBlock Text="{Binding Operators.Count}"
                                    FontSize="11" FontWeight="Bold"
-                                   Foreground="{StaticResource OperatorAccentBrush}" />
+                                   Foreground="{DynamicResource AppAccentDarkBrush}" />
                     </Border>
                 </StackPanel>
 
@@ -231,18 +224,18 @@
                                                           RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}">
                                     <Border x:Name="Card"
-                                            Background="{StaticResource OperatorSurfaceBrush}"
-                                            BorderBrush="{StaticResource OperatorBorderBrush}"
+                                            Background="{DynamicResource AppSurfaceBrush}"
+                                            BorderBrush="{DynamicResource AppBorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="14"
                                             Padding="20">
                                         <StackPanel>
                                             <Border Width="48" Height="48" CornerRadius="24"
                                                     HorizontalAlignment="Left"
-                                                    Background="{StaticResource OperatorAccentSoftBrush}">
+                                                    Background="{DynamicResource AppAccentSoftBrush}">
                                                 <TextBlock Text="{Binding Iniciales}"
                                                            FontSize="16" FontWeight="Bold"
-                                                           Foreground="{StaticResource OperatorAccentBrush}"
+                                                           Foreground="{DynamicResource AppAccentDarkBrush}"
                                                            HorizontalAlignment="Center"
                                                            VerticalAlignment="Center" />
                                             </Border>
@@ -250,11 +243,11 @@
                                             <TextBlock Text="{Binding NombreCompleto}"
                                                        Margin="0,12,0,0"
                                                        FontSize="16" FontWeight="SemiBold"
-                                                       Foreground="{StaticResource OperatorTextBrush}"
+                                                       Foreground="{DynamicResource AppTextBrush}"
                                                        TextTrimming="CharacterEllipsis"
                                                        TextWrapping="NoWrap" />
 
-                                            <Border BorderBrush="#F1F5F9"
+                                            <Border BorderBrush="{DynamicResource AppSubtleBorderBrush}"
                                                     BorderThickness="0,1,0,0"
                                                     Padding="0,10,0,0"
                                                     Margin="0,12,0,0">
@@ -266,12 +259,12 @@
 
                                                     <TextBlock Text="Ingresar con PIN"
                                                                FontSize="12"
-                                                               Foreground="{StaticResource OperatorMutedBrush}"
+                                                               Foreground="{DynamicResource AppMutedBrush}"
                                                                VerticalAlignment="Center" />
                                                     <materialDesign:PackIcon Grid.Column="1"
                                                                              Kind="ChevronRight"
                                                                              Width="16" Height="16"
-                                                                             Foreground="{StaticResource OperatorAccentBrush}"
+                                                                             Foreground="{DynamicResource AppAccentTextBrush}"
                                                                              VerticalAlignment="Center" />
                                                 </Grid>
                                             </Border>
@@ -284,14 +277,14 @@
                                                                    RelativeSource={RelativeSource AncestorType=Button}}"
                                                  Value="True">
                                         <Setter TargetName="Card" Property="BorderBrush"
-                                                Value="{StaticResource OperatorAccentBrush}" />
-                                        <Setter TargetName="Card" Property="Background" Value="#F8FAFF" />
+                                                Value="{DynamicResource AppAccentBrush}" />
+                                        <Setter TargetName="Card" Property="Background" Value="{DynamicResource AppAccentSoftBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsKeyboardFocused,
                                                                    RelativeSource={RelativeSource AncestorType=Button}}"
                                                  Value="True">
                                         <Setter TargetName="Card" Property="BorderBrush"
-                                                Value="{StaticResource OperatorAccentBrush}" />
+                                                Value="{DynamicResource AppAccentBrush}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -299,8 +292,8 @@
                     </ItemsControl>
 
                     <!-- Estado vacío -->
-                    <Border Background="{StaticResource OperatorSurfaceBrush}"
-                            BorderBrush="{StaticResource OperatorBorderBrush}"
+                    <Border Background="{DynamicResource AppSurfaceBrush}"
+                            BorderBrush="{DynamicResource AppBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="14"
                             Padding="32"
@@ -310,24 +303,24 @@
                                     MaxWidth="420">
                             <materialDesign:PackIcon Kind="AccountSearchOutline"
                                                      Width="44" Height="44"
-                                                     Foreground="{StaticResource OperatorMutedBrush}"
+                                                     Foreground="{DynamicResource AppMutedBrush}"
                                                      HorizontalAlignment="Center" />
                             <TextBlock Text="No hay operarios disponibles"
                                        FontSize="18" FontWeight="SemiBold"
-                                       Foreground="{StaticResource OperatorTextBrush}"
+                                       Foreground="{DynamicResource AppTextBrush}"
                                        HorizontalAlignment="Center"
                                        Margin="0,14,0,0" />
                             <TextBlock Text="Sincroniza el almacén o ajusta la búsqueda."
                                        FontSize="13"
-                                       Foreground="{StaticResource OperatorMutedBrush}"
+                                       Foreground="{DynamicResource AppMutedBrush}"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap"
                                        Margin="0,6,0,16" />
                             <Button Content="Sincronizar ahora"
                                     Command="{Binding SyncCommand}"
                                     Style="{StaticResource MaterialDesignOutlinedButton}"
-                                    Foreground="{StaticResource OperatorAccentBrush}"
-                                    BorderBrush="{StaticResource OperatorAccentBrush}"
+                                    Foreground="{DynamicResource AppAccentTextBrush}"
+                                    BorderBrush="{DynamicResource AppAccentBrush}"
                                     HorizontalAlignment="Center"
                                     Height="38"
                                     Padding="16,0" />

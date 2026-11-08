@@ -37,6 +37,7 @@ public partial class App : Application
                 services.AddSingleton<IDeviceSessionService, DeviceSessionService>();
                 services.AddSingleton<IOperatorSession, OperatorSession>();
                 services.AddSingleton<IDialogService, MessageDialogService>();
+                services.AddSingleton<IThemeService, ThemeService>();
                 services.AddTransient<JwtAuthenticationHandler>();
 
                 // Resiliencia
@@ -98,6 +99,9 @@ public partial class App : Application
         try
         {
             await _host.StartAsync();
+
+            var themeService = _host.Services.GetRequiredService<IThemeService>();
+            await themeService.InitializeAsync();
 
             var mainViewModel = _host.Services.GetRequiredService<MainViewModel>();
             var localStore = _host.Services.GetRequiredService<ILocalStore>();

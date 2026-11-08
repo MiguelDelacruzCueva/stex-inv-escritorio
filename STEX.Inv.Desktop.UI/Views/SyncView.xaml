@@ -4,29 +4,22 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="SyncBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="SyncSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="SyncBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="SyncTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="SyncMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="SyncAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="SyncAccentSoftBrush" Color="#EEF2FF" />
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
-                  Background="{StaticResource SyncBackgroundBrush}">
+                  Background="{DynamicResource AppBackgroundBrush}">
         <StackPanel Margin="32,28,32,32">
             <TextBlock Text="Sincronización"
                        FontSize="30" FontWeight="Black"
-                       Foreground="{StaticResource SyncTextBrush}" />
+                       Foreground="{DynamicResource AppTextBrush}" />
             <TextBlock Text="Sube los conteos pendientes y actualiza los maestros del almacén."
                        FontSize="14"
-                       Foreground="{StaticResource SyncMutedBrush}"
+                       Foreground="{DynamicResource AppMutedBrush}"
                        Margin="0,6,0,24" />
 
-            <Border Background="{StaticResource SyncSurfaceBrush}"
-                    BorderBrush="{StaticResource SyncBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
                     Padding="24">
@@ -38,11 +31,11 @@
                     </Grid.ColumnDefinitions>
 
                     <Border Width="52" Height="52" CornerRadius="14"
-                            Background="{StaticResource SyncAccentSoftBrush}"
+                            Background="{DynamicResource AppAccentSoftBrush}"
                             VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="CloudSyncOutline"
                                                  Width="26" Height="26"
-                                                 Foreground="{StaticResource SyncAccentBrush}"
+                                                 Foreground="{DynamicResource AppAccentDarkBrush}"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center" />
                     </Border>
@@ -50,10 +43,10 @@
                     <StackPanel Grid.Column="1" Margin="14,0,16,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding WarehouseName}"
                                    FontSize="17" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <TextBlock Text="{Binding LastSyncText}"
                                    FontSize="12"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,3,0,0" />
                     </StackPanel>
 
@@ -63,8 +56,8 @@
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="42"
                             Padding="20,0"
-                            Background="{StaticResource SyncAccentBrush}"
-                            Foreground="White"
+                            Background="{DynamicResource AppAccentBrush}"
+                            Foreground="{DynamicResource AppOnAccentBrush}"
                             BorderThickness="0"
                             VerticalAlignment="Center"
                             materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsBusy}"
@@ -73,8 +66,8 @@
             </Border>
 
             <UniformGrid Columns="4" Margin="0,20,0,0">
-                <Border Background="{StaticResource SyncSurfaceBrush}"
-                        BorderBrush="{StaticResource SyncBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="18"
@@ -82,19 +75,19 @@
                     <StackPanel>
                         <materialDesign:PackIcon Kind="PackageVariantClosed"
                                                  Width="24" Height="24"
-                                                 Foreground="{StaticResource SyncAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="MATERIALES"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,10,0,2" />
                         <TextBlock Text="{Binding MaterialesCount}"
                                    FontSize="28" FontWeight="Black"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{StaticResource SyncSurfaceBrush}"
-                        BorderBrush="{StaticResource SyncBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="18"
@@ -102,19 +95,19 @@
                     <StackPanel>
                         <materialDesign:PackIcon Kind="AccountHardHat"
                                                  Width="24" Height="24"
-                                                 Foreground="{StaticResource SyncAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="OPERARIOS"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,10,0,2" />
                         <TextBlock Text="{Binding OperariosCount}"
                                    FontSize="28" FontWeight="Black"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{StaticResource SyncSurfaceBrush}"
-                        BorderBrush="{StaticResource SyncBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="18"
@@ -122,36 +115,36 @@
                     <StackPanel>
                         <materialDesign:PackIcon Kind="CalendarCheck"
                                                  Width="24" Height="24"
-                                                 Foreground="{StaticResource SyncAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="CAMPAÑAS"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,10,0,2" />
                         <TextBlock Text="{Binding CampanasCount}"
                                    FontSize="28" FontWeight="Black"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{StaticResource SyncSurfaceBrush}"
-                        BorderBrush="{StaticResource SyncBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="18">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ClipboardListOutline"
                                                  Width="24" Height="24"
-                                                 Foreground="{StaticResource SyncAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="CONTEOS LOCALES"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,10,0,2" />
                         <TextBlock Text="{Binding ConteosCount}"
                                    FontSize="28" FontWeight="Black"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <TextBlock Text="{Binding ConteosPendientes, StringFormat={}{0} pendientes}"
                                    FontSize="10"
-                                   Foreground="{StaticResource SyncMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                     </StackPanel>
                 </Border>
             </UniformGrid>
@@ -162,13 +155,13 @@
                     Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="#ECFDF5" />
-                        <Setter Property="BorderBrush" Value="#A7F3D0" />
+                        <Setter Property="Background" Value="{DynamicResource AppSuccessBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource AppSuccessBorderBrush}" />
                         <Setter Property="BorderThickness" Value="1" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsError}" Value="True">
-                                <Setter Property="Background" Value="#FEF2F2" />
-                                <Setter Property="BorderBrush" Value="#FECACA" />
+                                <Setter Property="Background" Value="{DynamicResource AppDangerBackgroundBrush}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource AppDangerBorderBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -180,11 +173,11 @@
                         <materialDesign:PackIcon.Style>
                             <Style TargetType="materialDesign:PackIcon">
                                 <Setter Property="Kind" Value="CheckCircleOutline" />
-                                <Setter Property="Foreground" Value="#047857" />
+                                <Setter Property="Foreground" Value="{DynamicResource AppSuccessTextBrush}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsError}" Value="True">
                                         <Setter Property="Kind" Value="AlertCircleOutline" />
-                                        <Setter Property="Foreground" Value="#B91C1C" />
+                                        <Setter Property="Foreground" Value="{DynamicResource AppDangerTextBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -196,10 +189,10 @@
                                TextWrapping="Wrap">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#047857" />
+                                <Setter Property="Foreground" Value="{DynamicResource AppSuccessTextBrush}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsError}" Value="True">
-                                        <Setter Property="Foreground" Value="#B91C1C" />
+                                        <Setter Property="Foreground" Value="{DynamicResource AppDangerTextBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -208,8 +201,8 @@
                 </StackPanel>
             </Border>
 
-            <Border Background="{StaticResource SyncSurfaceBrush}"
-                    BorderBrush="{StaticResource SyncBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
                     Padding="20"
@@ -217,16 +210,16 @@
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="InformationOutline"
                                              Width="20" Height="20"
-                                             Foreground="{StaticResource SyncAccentBrush}"
+                                             Foreground="{DynamicResource AppAccentTextBrush}"
                                              VerticalAlignment="Top"
                                              Margin="0,1,10,0" />
                     <StackPanel>
                         <TextBlock Text="Conteos guardados localmente"
                                    FontSize="13" FontWeight="SemiBold"
-                                   Foreground="{StaticResource SyncTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <TextBlock Text="Al sincronizar se suben primero los conteos pendientes y luego se actualizan los maestros. Los conteos ya subidos no se envían de nuevo."
                                    FontSize="12"
-                                   Foreground="{StaticResource SyncMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    TextWrapping="Wrap"
                                    Margin="0,3,0,0" />
                     </StackPanel>

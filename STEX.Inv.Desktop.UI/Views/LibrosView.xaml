@@ -4,18 +4,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="LibrosBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="LibrosSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="LibrosBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="LibrosTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="LibrosMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="LibrosAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="LibrosAccentSoftBrush" Color="#EEF2FF" />
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
-                  Background="{StaticResource LibrosBackgroundBrush}">
+                  Background="{DynamicResource AppBackgroundBrush}">
         <StackPanel Margin="32,28,32,32">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -26,10 +19,10 @@
                 <StackPanel>
                     <TextBlock Text="Libros"
                                FontSize="30" FontWeight="Black"
-                               Foreground="{StaticResource LibrosTextBrush}" />
+                               Foreground="{DynamicResource AppTextBrush}" />
                     <TextBlock Text="Conteos capturados en este equipo y su estado de subida."
                                FontSize="14"
-                               Foreground="{StaticResource LibrosMutedBrush}"
+                               Foreground="{DynamicResource AppMutedBrush}"
                                Margin="0,6,0,0" />
                 </StackPanel>
 
@@ -37,16 +30,16 @@
                     <Button Content="Exportar CSV"
                             Command="{Binding ExportCommand}"
                             Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Foreground="{StaticResource LibrosAccentBrush}"
-                            BorderBrush="{StaticResource LibrosAccentBrush}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            BorderBrush="{DynamicResource AppAccentBrush}"
                             Height="38"
                             Padding="16,0"
                             Margin="0,0,8,0" />
                     <Button Content="Actualizar"
                             Command="{Binding RefreshCommand}"
                             Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Foreground="{StaticResource LibrosAccentBrush}"
-                            BorderBrush="{StaticResource LibrosAccentBrush}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            BorderBrush="{DynamicResource AppAccentBrush}"
                             Height="38"
                             Padding="16,0" />
                 </StackPanel>
@@ -58,13 +51,13 @@
                     Visibility="{Binding HasStatusMessage, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="Background" Value="#ECFDF5" />
-                        <Setter Property="BorderBrush" Value="#A7F3D0" />
+                        <Setter Property="Background" Value="{DynamicResource AppSuccessBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource AppSuccessBorderBrush}" />
                         <Setter Property="BorderThickness" Value="1" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsStatusError}" Value="True">
-                                <Setter Property="Background" Value="#FEF2F2" />
-                                <Setter Property="BorderBrush" Value="#FECACA" />
+                                <Setter Property="Background" Value="{DynamicResource AppDangerBackgroundBrush}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource AppDangerBorderBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -74,10 +67,10 @@
                            TextWrapping="Wrap">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="#047857" />
+                            <Setter Property="Foreground" Value="{DynamicResource AppSuccessTextBrush}" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsStatusError}" Value="True">
-                                    <Setter Property="Foreground" Value="#B91C1C" />
+                                    <Setter Property="Foreground" Value="{DynamicResource AppDangerTextBrush}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -86,8 +79,8 @@
             </Border>
 
             <UniformGrid Columns="3" Margin="0,24,0,0">
-                <Border Background="{StaticResource LibrosSurfaceBrush}"
-                        BorderBrush="{StaticResource LibrosBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="20"
@@ -95,19 +88,19 @@
                     <StackPanel>
                         <materialDesign:PackIcon Kind="BookOpenVariant"
                                                  Width="26" Height="26"
-                                                 Foreground="{StaticResource LibrosAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="LIBROS"
                                    FontSize="11" FontWeight="SemiBold"
-                                   Foreground="{StaticResource LibrosMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,12,0,2" />
                         <TextBlock Text="{Binding Libros.Count}"
                                    FontSize="30" FontWeight="Black"
-                                   Foreground="{StaticResource LibrosTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{StaticResource LibrosSurfaceBrush}"
-                        BorderBrush="{StaticResource LibrosBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="20"
@@ -115,48 +108,48 @@
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ClipboardListOutline"
                                                  Width="26" Height="26"
-                                                 Foreground="{StaticResource LibrosAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="REGISTROS"
                                    FontSize="11" FontWeight="SemiBold"
-                                   Foreground="{StaticResource LibrosMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,12,0,2" />
                         <TextBlock Text="{Binding TotalRegistros}"
                                    FontSize="30" FontWeight="Black"
-                                   Foreground="{StaticResource LibrosTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{StaticResource LibrosSurfaceBrush}"
-                        BorderBrush="{StaticResource LibrosBorderBrush}"
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="20">
                     <StackPanel>
                         <materialDesign:PackIcon Kind="ScaleBalance"
                                                  Width="26" Height="26"
-                                                 Foreground="{StaticResource LibrosAccentBrush}" />
+                                                 Foreground="{DynamicResource AppAccentTextBrush}" />
                         <TextBlock Text="PESO TOTAL"
                                    FontSize="11" FontWeight="SemiBold"
-                                   Foreground="{StaticResource LibrosMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,12,0,2" />
                         <TextBlock Text="{Binding TotalPesoText}"
                                    FontSize="30" FontWeight="Black"
-                                   Foreground="{StaticResource LibrosTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                     </StackPanel>
                 </Border>
             </UniformGrid>
 
             <TextBlock Text="Libros de conteo"
                        FontSize="15" FontWeight="SemiBold"
-                       Foreground="{StaticResource LibrosTextBrush}"
+                       Foreground="{DynamicResource AppTextBrush}"
                        Margin="0,28,0,12" />
 
             <ItemsControl ItemsSource="{Binding Libros}"
                           Visibility="{Binding HasLibros, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{StaticResource LibrosSurfaceBrush}"
-                                BorderBrush="{StaticResource LibrosBorderBrush}"
+                        <Border Background="{DynamicResource AppSurfaceBrush}"
+                                BorderBrush="{DynamicResource AppBorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="14"
                                 Padding="20"
@@ -170,10 +163,10 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Border Width="44" Height="44" CornerRadius="12"
-                                            Background="{StaticResource LibrosAccentSoftBrush}">
+                                            Background="{DynamicResource AppAccentSoftBrush}">
                                         <materialDesign:PackIcon Kind="BookOpenPageVariant"
                                                                  Width="22" Height="22"
-                                                                 Foreground="{StaticResource LibrosAccentBrush}"
+                                                                 Foreground="{DynamicResource AppAccentDarkBrush}"
                                                                  HorizontalAlignment="Center"
                                                                  VerticalAlignment="Center" />
                                     </Border>
@@ -181,11 +174,15 @@
                                     <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding CampanaNombre}"
                                                    FontSize="16" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosTextBrush}" />
+                                                   Foreground="{DynamicResource AppTextBrush}" />
                                         <TextBlock Text="{Binding UltimaActualizacionTexto, StringFormat=Última captura: {0}}"
                                                    FontSize="12"
-                                                   Foreground="{StaticResource LibrosMutedBrush}"
+                                                   Foreground="{DynamicResource AppMutedBrush}"
                                                    Margin="0,3,0,0" />
+                                        <TextBlock Text="{Binding LibroIdTexto}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource AppMutedBrush}"
+                                                   Margin="0,2,0,0" />
                                     </StackPanel>
 
                                     <Border Grid.Column="2"
@@ -194,10 +191,10 @@
                                             VerticalAlignment="Center">
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <Setter Property="Background" Value="{StaticResource LibrosAccentSoftBrush}" />
+                                                <Setter Property="Background" Value="{DynamicResource AppAccentSoftBrush}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Sincronizado}" Value="True">
-                                                        <Setter Property="Background" Value="#ECFDF5" />
+                                                        <Setter Property="Background" Value="{DynamicResource AppSuccessBackgroundBrush}" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -206,10 +203,10 @@
                                                    FontSize="11" FontWeight="SemiBold">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="{StaticResource LibrosAccentBrush}" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource AppAccentDarkBrush}" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Sincronizado}" Value="True">
-                                                            <Setter Property="Foreground" Value="#047857" />
+                                                            <Setter Property="Foreground" Value="{DynamicResource AppSuccessTextBrush}" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -222,48 +219,49 @@
                                     <StackPanel>
                                         <TextBlock Text="REGISTROS"
                                                    FontSize="10" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosMutedBrush}" />
+                                                   Foreground="{DynamicResource AppMutedBrush}" />
                                         <TextBlock Text="{Binding Registros}"
                                                    FontSize="17" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                   Foreground="{DynamicResource AppTextBrush}"
                                                    Margin="0,2,0,0" />
                                     </StackPanel>
                                     <StackPanel>
                                         <TextBlock Text="UNIDADES"
                                                    FontSize="10" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosMutedBrush}" />
+                                                   Foreground="{DynamicResource AppMutedBrush}" />
                                         <TextBlock Text="{Binding Unidades}"
                                                    FontSize="17" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                   Foreground="{DynamicResource AppTextBrush}"
                                                    Margin="0,2,0,0" />
                                     </StackPanel>
                                     <StackPanel>
                                         <TextBlock Text="PESO NETO"
                                                    FontSize="10" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosMutedBrush}" />
+                                                   Foreground="{DynamicResource AppMutedBrush}" />
                                         <TextBlock Text="{Binding PesoNetoTexto}"
                                                    FontSize="17" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                   Foreground="{DynamicResource AppTextBrush}"
                                                    Margin="0,2,0,0" />
                                     </StackPanel>
                                     <StackPanel>
-                                        <TextBlock Text="OPERARIOS"
+                                        <TextBlock Text="OPERARIO"
                                                    FontSize="10" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosMutedBrush}" />
-                                        <TextBlock Text="{Binding Operarios}"
-                                                   FontSize="17" FontWeight="SemiBold"
-                                                   Foreground="{StaticResource LibrosTextBrush}"
-                                                   Margin="0,2,0,0" />
+                                                   Foreground="{DynamicResource AppMutedBrush}" />
+                                        <TextBlock Text="{Binding OperarioNombre}"
+                                                   FontSize="13" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource AppTextBrush}"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
                                 </UniformGrid>
 
                                 <Expander Header="Ver detalle"
                                           Margin="0,14,0,0"
-                                          Foreground="{StaticResource LibrosMutedBrush}">
+                                          Foreground="{DynamicResource AppMutedBrush}">
                                     <ItemsControl ItemsSource="{Binding Lineas}" Margin="0,8,0,0">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border BorderBrush="{StaticResource LibrosBorderBrush}"
+                                                <Border BorderBrush="{DynamicResource AppBorderBrush}"
                                                         BorderThickness="0,1,0,0"
                                                         Padding="0,8">
                                                     <Grid>
@@ -277,36 +275,36 @@
                                                         <StackPanel>
                                                             <TextBlock Text="{Binding MaterialDescripcion}"
                                                                        FontSize="12" FontWeight="SemiBold"
-                                                                       Foreground="{StaticResource LibrosTextBrush}"
+                                                                       Foreground="{DynamicResource AppTextBrush}"
                                                                        TextTrimming="CharacterEllipsis" />
                                                             <TextBlock Text="{Binding OperarioNombre, StringFormat=Operario: {0}}"
                                                                        FontSize="11"
-                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Foreground="{DynamicResource AppMutedBrush}"
                                                                        Margin="0,2,0,0" />
                                                             <TextBlock Text="{Binding KardexNumero, StringFormat=Kardex: {0}}"
                                                                        FontSize="11"
-                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Foreground="{DynamicResource AppMutedBrush}"
                                                                        Margin="0,2,0,0" />
                                                             <TextBlock Text="{Binding Observacion, StringFormat=Observación: {0}}"
                                                                        FontSize="11"
-                                                                       Foreground="{StaticResource LibrosMutedBrush}"
+                                                                       Foreground="{DynamicResource AppMutedBrush}"
                                                                        Margin="0,2,0,0" />
                                                         </StackPanel>
 
                                                         <TextBlock Grid.Column="1"
                                                                    Text="{Binding Unidades, StringFormat={}{0} unid.}"
                                                                    FontSize="12"
-                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   Foreground="{DynamicResource AppTextBrush}"
                                                                    VerticalAlignment="Center" />
                                                         <TextBlock Grid.Column="2"
                                                                    Text="{Binding Presentacion}"
                                                                    FontSize="12"
-                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   Foreground="{DynamicResource AppTextBrush}"
                                                                    VerticalAlignment="Center" />
                                                         <TextBlock Grid.Column="3"
                                                                    Text="{Binding PesoNeto, StringFormat={}{0:0.##} kg}"
                                                                    FontSize="12"
-                                                                   Foreground="{StaticResource LibrosTextBrush}"
+                                                                   Foreground="{DynamicResource AppTextBrush}"
                                                                    VerticalAlignment="Center" />
                                                     </Grid>
                                                 </Border>
@@ -320,8 +318,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Border Background="{StaticResource LibrosSurfaceBrush}"
-                    BorderBrush="{StaticResource LibrosBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
                     Padding="40"
@@ -329,16 +327,16 @@
                 <StackPanel HorizontalAlignment="Center" MaxWidth="420">
                     <materialDesign:PackIcon Kind="BookOpenVariant"
                                              Width="48" Height="48"
-                                             Foreground="{StaticResource LibrosMutedBrush}"
+                                             Foreground="{DynamicResource AppMutedBrush}"
                                              HorizontalAlignment="Center" />
                     <TextBlock Text="Aún no hay libros de conteo"
                                FontSize="18" FontWeight="SemiBold"
-                               Foreground="{StaticResource LibrosTextBrush}"
+                               Foreground="{DynamicResource AppTextBrush}"
                                HorizontalAlignment="Center"
                                Margin="0,14,0,4" />
                     <TextBlock Text="Los registros que guardes desde el módulo Conteo aparecerán aquí."
                                FontSize="13"
-                               Foreground="{StaticResource LibrosMutedBrush}"
+                               Foreground="{DynamicResource AppMutedBrush}"
                                TextAlignment="Center"
                                TextWrapping="Wrap" />
                 </StackPanel>

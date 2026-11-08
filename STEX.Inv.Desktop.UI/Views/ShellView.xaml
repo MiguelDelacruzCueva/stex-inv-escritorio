@@ -4,17 +4,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="ShellBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="ShellSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="ShellBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="ShellTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="ShellMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="ShellAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="ShellAccentSoftBrush" Color="#EEF2FF" />
-        <SolidColorBrush x:Key="ShellAccentDarkBrush" Color="#312E81" />
 
         <Style x:Key="ShellNavItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Foreground" Value="#4B5563" />
+            <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Padding" Value="14,11" />
             <Setter Property="Margin" Value="8,2" />
@@ -40,7 +32,7 @@
                                         Grid.Column="0"
                                         Width="4" Height="20"
                                         CornerRadius="2"
-                                        Background="{StaticResource ShellAccentBrush}"
+                                        Background="{DynamicResource AppAccentBrush}"
                                         Visibility="Collapsed"
                                         VerticalAlignment="Center" />
 
@@ -52,24 +44,24 @@
                                                          Grid.Column="2"
                                                          Kind="ChevronRight"
                                                          Width="16" Height="16"
-                                                         Foreground="#D1D5DB"
+                                                         Foreground="{DynamicResource AppChevronBrush}"
                                                          VerticalAlignment="Center" />
                             </Grid>
                         </Border>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Root" Property="Background" Value="#F8FAFC" />
-                                <Setter TargetName="Chevron" Property="Foreground" Value="#9CA3AF" />
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
+                                <Setter TargetName="Chevron" Property="Foreground" Value="{DynamicResource AppMutedBrush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Root" Property="Background" Value="{StaticResource ShellAccentSoftBrush}" />
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource AppAccentSoftBrush}" />
                                 <Setter TargetName="Accent" Property="Visibility" Value="Visible" />
-                                <Setter TargetName="Chevron" Property="Foreground" Value="{StaticResource ShellAccentBrush}" />
-                                <Setter Property="Foreground" Value="{StaticResource ShellAccentDarkBrush}" />
+                                <Setter TargetName="Chevron" Property="Foreground" Value="{DynamicResource AppAccentDarkBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource AppAccentDarkBrush}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource ShellAccentBrush}" />
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -78,7 +70,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource ShellBackgroundBrush}">
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="76" />
             <RowDefinition Height="*" />
@@ -86,8 +78,8 @@
 
         <!-- Cabecera -->
         <Border Grid.Row="0"
-                Background="{StaticResource ShellSurfaceBrush}"
-                BorderBrush="{StaticResource ShellBorderBrush}"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
                 BorderThickness="0,0,0,1">
             <Grid Margin="24,0">
                 <Grid.ColumnDefinitions>
@@ -99,28 +91,28 @@
                 <!-- Marca -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Width="40" Height="40" CornerRadius="10"
-                            Background="{StaticResource ShellAccentBrush}">
+                            Background="{DynamicResource AppAccentBrush}">
                         <materialDesign:PackIcon Kind="Warehouse"
                                                  Width="22" Height="22"
-                                                 Foreground="White"
+                                                 Foreground="{DynamicResource AppOnAccentBrush}"
                                                  HorizontalAlignment="Center"
                                                  VerticalAlignment="Center" />
                     </Border>
                     <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
                         <TextBlock Text="STEX-INV"
                                    FontSize="18" FontWeight="Bold"
-                                   Foreground="{StaticResource ShellTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <TextBlock Text="Gestión de inventario"
                                    FontSize="11"
-                                   Foreground="{StaticResource ShellMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    Margin="0,1,0,0" />
                     </StackPanel>
                 </StackPanel>
 
                 <!-- Contexto de sesión -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#F8FAFC"
-                            BorderBrush="#E2E8F0"
+                    <Border Background="{DynamicResource AppSurfaceAltBrush}"
+                            BorderBrush="{DynamicResource AppBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="18"
                             Padding="12,7"
@@ -128,36 +120,36 @@
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="StorefrontOutline"
                                                      Width="16" Height="16"
-                                                     Foreground="{StaticResource ShellMutedBrush}"
+                                                     Foreground="{DynamicResource AppMutedBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
                             <TextBlock Text="{Binding WarehouseName}"
                                        FontSize="13"
-                                       Foreground="#374151"
+                                       Foreground="{DynamicResource AppTextBrush}"
                                        MaxWidth="220"
                                        TextTrimming="CharacterEllipsis"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
 
-                    <Border Background="#F8FAFC"
-                            BorderBrush="#E2E8F0"
+                    <Border Background="{DynamicResource AppSurfaceAltBrush}"
+                            BorderBrush="{DynamicResource AppBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="18"
                             Padding="8,6">
                         <StackPanel Orientation="Horizontal">
                             <Border Width="24" Height="24" CornerRadius="12"
-                                    Background="{StaticResource ShellAccentSoftBrush}"
+                                    Background="{DynamicResource AppAccentSoftBrush}"
                                     Margin="0,0,8,0">
                                 <materialDesign:PackIcon Kind="AccountHardHat"
                                                          Width="14" Height="14"
-                                                         Foreground="{StaticResource ShellAccentBrush}"
+                                                         Foreground="{DynamicResource AppAccentDarkBrush}"
                                                          HorizontalAlignment="Center"
                                                          VerticalAlignment="Center" />
                             </Border>
                             <TextBlock Text="{Binding OperatorName}"
                                        FontSize="13" FontWeight="SemiBold"
-                                       Foreground="{StaticResource ShellTextBrush}"
+                                       Foreground="{DynamicResource AppTextBrush}"
                                        MaxWidth="180"
                                        TextTrimming="CharacterEllipsis"
                                        VerticalAlignment="Center" />
@@ -176,8 +168,8 @@
 
             <!-- Sidebar -->
             <Border Grid.Column="0"
-                    Background="{StaticResource ShellSurfaceBrush}"
-                    BorderBrush="{StaticResource ShellBorderBrush}"
+                    Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="0,0,1,0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -190,7 +182,7 @@
                                Text="MENÚ PRINCIPAL"
                                Margin="24,24,0,8"
                                FontSize="11" FontWeight="Bold"
-                               Foreground="#9CA3AF" />
+                               Foreground="{DynamicResource AppMutedBrush}" />
 
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Modules}"
@@ -222,7 +214,7 @@
 
                     <StackPanel Grid.Row="2" Margin="12,0,12,16">
                         <Border Height="1"
-                                Background="{StaticResource ShellBorderBrush}"
+                                Background="{DynamicResource AppBorderBrush}"
                                 Margin="8,0,8,12" />
 
                         <Button Command="{Binding LogoutCommand}"
@@ -230,15 +222,15 @@
                                 HorizontalContentAlignment="Left"
                                 Padding="12,0"
                                 Height="42"
-                                Foreground="#374151">
+                                Foreground="{DynamicResource AppTextBrush}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="LogoutVariant"
                                                          Width="18" Height="18"
-                                                         Foreground="#374151"
+                                                         Foreground="{DynamicResource AppTextBrush}"
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,10,0" />
                                 <TextBlock Text="Cerrar sesión"
-                                           Foreground="#374151"
+                                           Foreground="{DynamicResource AppTextBrush}"
                                            VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -248,15 +240,15 @@
                                 HorizontalContentAlignment="Left"
                                 Padding="12,0"
                                 Height="42"
-                                Foreground="#B91C1C">
+                                Foreground="{DynamicResource AppDangerTextBrush}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="LinkOff"
                                                          Width="18" Height="18"
-                                                         Foreground="#B91C1C"
+                                                         Foreground="{DynamicResource AppDangerTextBrush}"
                                                          VerticalAlignment="Center"
                                                          Margin="0,0,10,0" />
                                 <TextBlock Text="Desvincular equipo"
-                                           Foreground="#B91C1C"
+                                           Foreground="{DynamicResource AppDangerTextBrush}"
                                            VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>

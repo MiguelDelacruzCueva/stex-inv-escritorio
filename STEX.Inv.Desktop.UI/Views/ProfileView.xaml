@@ -4,29 +4,22 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="ProfileBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="ProfileSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="ProfileBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="ProfileTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="ProfileMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="ProfileAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="ProfileAccentSoftBrush" Color="#EEF2FF" />
     </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
-                  Background="{StaticResource ProfileBackgroundBrush}">
+                  Background="{DynamicResource AppBackgroundBrush}">
         <StackPanel Margin="32,28,32,32" MaxWidth="1000" HorizontalAlignment="Center">
             <TextBlock Text="Perfil"
                        FontSize="30" FontWeight="Black"
-                       Foreground="{StaticResource ProfileTextBrush}" />
+                       Foreground="{DynamicResource AppTextBrush}" />
             <TextBlock Text="Información del operario y del equipo vinculado."
                        FontSize="14"
-                       Foreground="{StaticResource ProfileMutedBrush}"
+                       Foreground="{DynamicResource AppMutedBrush}"
                        Margin="0,6,0,24" />
 
-            <Border Background="{StaticResource ProfileSurfaceBrush}"
-                    BorderBrush="{StaticResource ProfileBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
                     Padding="24">
@@ -38,10 +31,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border Width="64" Height="64" CornerRadius="32"
-                            Background="{StaticResource ProfileAccentSoftBrush}">
+                            Background="{DynamicResource AppAccentSoftBrush}">
                         <TextBlock Text="{Binding Initials}"
                                    FontSize="22" FontWeight="Bold"
-                                   Foreground="{StaticResource ProfileAccentBrush}"
+                                   Foreground="{DynamicResource AppAccentDarkBrush}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
                     </Border>
@@ -49,16 +42,16 @@
                     <StackPanel Grid.Column="1" Margin="16,0,16,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding OperatorName}"
                                    FontSize="22" FontWeight="Bold"
-                                   Foreground="{StaticResource ProfileTextBrush}" />
+                                   Foreground="{DynamicResource AppTextBrush}" />
                         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                             <materialDesign:PackIcon Kind="StorefrontOutline"
                                                      Width="15" Height="15"
-                                                     Foreground="{StaticResource ProfileMutedBrush}"
+                                                     Foreground="{DynamicResource AppMutedBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,6,0" />
                             <TextBlock Text="{Binding WarehouseName}"
                                        FontSize="13"
-                                       Foreground="{StaticResource ProfileMutedBrush}"
+                                       Foreground="{DynamicResource AppMutedBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </StackPanel>
@@ -69,10 +62,10 @@
                             VerticalAlignment="Center">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="#ECFDF5" />
+                                <Setter Property="Background" Value="{DynamicResource AppSuccessBackgroundBrush}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSessionExpired}" Value="True">
-                                        <Setter Property="Background" Value="#FEF2F2" />
+                                        <Setter Property="Background" Value="{DynamicResource AppDangerBackgroundBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -81,10 +74,10 @@
                                    FontSize="11" FontWeight="SemiBold">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="#047857" />
+                                    <Setter Property="Foreground" Value="{DynamicResource AppSuccessTextBrush}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSessionExpired}" Value="True">
-                                            <Setter Property="Foreground" Value="#B91C1C" />
+                                            <Setter Property="Foreground" Value="{DynamicResource AppDangerTextBrush}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -101,8 +94,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="0"
-                        Background="{StaticResource ProfileSurfaceBrush}"
-                        BorderBrush="{StaticResource ProfileBorderBrush}"
+                        Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="22"
@@ -110,39 +103,39 @@
                     <StackPanel>
                         <TextBlock Text="Operario"
                                    FontSize="15" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,0,0,16" />
 
                         <TextBlock Text="CORREO"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding Email}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    TextWrapping="Wrap"
                                    Margin="0,3,0,14" />
 
                         <TextBlock Text="ROL"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding Role}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,3,0,14" />
 
                         <TextBlock Text="ÚLTIMA SINCRONIZACIÓN"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding LastSyncText}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,3,0,0" />
                     </StackPanel>
                 </Border>
 
                 <Border Grid.Column="1"
-                        Background="{StaticResource ProfileSurfaceBrush}"
-                        BorderBrush="{StaticResource ProfileBorderBrush}"
+                        Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="14"
                         Padding="22"
@@ -150,39 +143,62 @@
                     <StackPanel>
                         <TextBlock Text="Equipo vinculado"
                                    FontSize="15" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,0,0,16" />
 
                         <TextBlock Text="ALMACÉN"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding WarehouseName}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    TextWrapping="Wrap"
                                    Margin="0,3,0,14" />
 
                         <TextBlock Text="VINCULADO EL"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding BoundAtText}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,3,0,14" />
 
                         <TextBlock Text="SESIÓN VÁLIDA HASTA"
                                    FontSize="10" FontWeight="SemiBold"
-                                   Foreground="{StaticResource ProfileMutedBrush}" />
+                                   Foreground="{DynamicResource AppMutedBrush}" />
                         <TextBlock Text="{Binding ExpiresAtText}"
                                    FontSize="13"
-                                   Foreground="{StaticResource ProfileTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    Margin="0,3,0,0" />
                     </StackPanel>
                 </Border>
             </Grid>
 
-            <Border Background="{StaticResource ProfileSurfaceBrush}"
-                    BorderBrush="{StaticResource ProfileBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="22"
+                    Margin="0,20,0,0">
+                <StackPanel>
+                    <TextBlock Text="Apariencia"
+                               FontSize="15" FontWeight="SemiBold"
+                               Foreground="{DynamicResource AppTextBrush}" />
+                    <TextBlock Text="Elige cómo se ve la aplicación en este equipo."
+                               FontSize="12"
+                               Foreground="{DynamicResource AppMutedBrush}"
+                               Margin="0,3,0,12" />
+                    <ComboBox ItemsSource="{Binding ThemeOptions}"
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                              DisplayMemberPath="Label"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              Width="220"
+                              HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
                     Padding="22"
@@ -190,10 +206,10 @@
                 <StackPanel>
                     <TextBlock Text="Acciones de la sesión"
                                FontSize="15" FontWeight="SemiBold"
-                               Foreground="{StaticResource ProfileTextBrush}" />
+                               Foreground="{DynamicResource AppTextBrush}" />
                     <TextBlock Text="Cerrar sesión mantiene el equipo vinculado. Desvincular elimina la sesión y los datos locales del almacén."
                                FontSize="12"
-                               Foreground="{StaticResource ProfileMutedBrush}"
+                               Foreground="{DynamicResource AppMutedBrush}"
                                TextWrapping="Wrap"
                                Margin="0,3,0,14" />
 
@@ -201,15 +217,15 @@
                         <Button Content="Cerrar sesión"
                                 Command="{Binding LogoutCommand}"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Foreground="{StaticResource ProfileAccentBrush}"
-                                BorderBrush="{StaticResource ProfileAccentBrush}"
+                                Foreground="{DynamicResource AppAccentTextBrush}"
+                                BorderBrush="{DynamicResource AppAccentBrush}"
                                 Height="40"
                                 Padding="18,0" />
                         <Button Content="Desvincular equipo"
                                 Command="{Binding UnbindCommand}"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Foreground="#B91C1C"
-                                BorderBrush="#FECACA"
+                                Foreground="{DynamicResource AppDangerTextBrush}"
+                                BorderBrush="{DynamicResource AppDangerBorderBrush}"
                                 Height="40"
                                 Padding="18,0"
                                 Margin="10,0,0,0" />

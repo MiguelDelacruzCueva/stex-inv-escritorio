@@ -4,11 +4,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <!-- Fondo de la aplicación -->
-    <Grid Background="#F0F2F5">
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
 
         <!-- Tarjeta Central (Uso de DropShadowEffect nativo de WPF para no depender de librerías externas en el diseño) -->
-        <Border Width="400" Padding="32" Background="White" CornerRadius="8"
-                BorderBrush="#E4E6E8" BorderThickness="1"
+        <Border Width="400" Padding="32" Background="{DynamicResource AppSurfaceBrush}" CornerRadius="8"
+                BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 FocusManager.FocusedElement="{Binding ElementName=EmailTextBox}">
             <Border.Effect>
@@ -18,42 +18,42 @@
             <StackPanel>
                 <!-- Cabecera -->
                 <materialDesign:PackIcon Kind="Warehouse" Width="48" Height="48"
-                                         HorizontalAlignment="Center" Foreground="#3F51B5" Margin="0,0,0,16"/>
+                                         HorizontalAlignment="Center" Foreground="{DynamicResource AppAccentTextBrush}" Margin="0,0,0,16"/>
 
                 <TextBlock Text="STEX-INV" FontSize="28" FontWeight="Bold"
-                           HorizontalAlignment="Center" Foreground="#1A1A1A" />
+                           HorizontalAlignment="Center" Foreground="{DynamicResource AppTextBrush}" />
 
                 <TextBlock Text="Vincular equipo al almacén" FontSize="14"
-                           HorizontalAlignment="Center" Foreground="#666666" Margin="0,4,0,32"/>
+                           HorizontalAlignment="Center" Foreground="{DynamicResource AppMutedBrush}" Margin="0,4,0,32"/>
 
                 <!-- Campos de entrada estables (Sin atributos Style personalizados para evitar que el diseñador colapse) -->
                 <TextBox x:Name="EmailTextBox"
                          materialDesign:HintAssist.Hint="Correo electrónico"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
-                         Foreground="#1A1A1A" materialDesign:HintAssist.Foreground="#666666"
+                         Foreground="{DynamicResource AppTextBrush}" materialDesign:HintAssist.Foreground="{DynamicResource AppMutedBrush}"
                          TabIndex="1" Margin="0,0,0,24" FontSize="15" Padding="0,8"/>
 
                 <PasswordBox x:Name="PasswordInput"
                              materialDesign:HintAssist.Hint="Contraseña de acceso"
                              Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                              PasswordChanged="OnPasswordChanged"
-                             Foreground="#1A1A1A" materialDesign:HintAssist.Foreground="#666666"
+                             Foreground="{DynamicResource AppTextBrush}" materialDesign:HintAssist.Foreground="{DynamicResource AppMutedBrush}"
                              TabIndex="2" Margin="0,0,0,12" FontSize="15" Padding="0,8"/>
 
                 <TextBlock HorizontalAlignment="Right" Margin="0,0,0,24">
-                    <Hyperlink Foreground="#3F51B5" TextDecorations="None">
+                    <Hyperlink Foreground="{DynamicResource AppAccentTextBrush}" TextDecorations="None">
                         ¿Necesitas ayuda?
                     </Hyperlink>
                 </TextBlock>
 
                 <!-- Mensajes de respuesta -->
                 <TextBlock Text="{Binding ErrorMessage}"
-                           Foreground="#D32F2F" FontWeight="Medium"
+                           Foreground="{DynamicResource AppDangerTextBrush}" FontWeight="Medium"
                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,12"/>
 
                 <TextBlock Text="{Binding StatusMessage}"
-                           Foreground="#666666"
+                           Foreground="{DynamicResource AppMutedBrush}"
                            TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,12"
                            Visibility="{Binding StatusMessage, Converter={StaticResource StringToVisibilityConverter}}"/>
 
@@ -61,16 +61,16 @@
                 <Button Content="VINCULAR EQUIPO"
                         Command="{Binding EnrollCommand}"
                         IsDefault="True" Height="45" TabIndex="3" FontSize="14" FontWeight="Bold"
-                        Background="#3F51B5" Foreground="White" BorderThickness="0"
+                        Background="{DynamicResource AppAccentBrush}" Foreground="{DynamicResource AppOnAccentBrush}" BorderThickness="0"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding IsBusy}"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsBusy}"/>
 
                 <!-- Sello de seguridad inferior -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
                     <materialDesign:PackIcon Kind="ShieldLockOutline" Width="16" Height="16"
-                                             Foreground="#999999" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                             Foreground="{DynamicResource AppMutedBrush}" Margin="0,0,6,0" VerticalAlignment="Center"/>
                     <TextBlock Text="Conexión cifrada de extremo a extremo" FontSize="12"
-                               Foreground="#999999" VerticalAlignment="Center"/>
+                               Foreground="{DynamicResource AppMutedBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
         </Border>

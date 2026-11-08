@@ -7,28 +7,21 @@
              PreviewKeyDown="OnPreviewKeyDown">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="PinBackgroundBrush" Color="#F0F2F5" />
-        <SolidColorBrush x:Key="PinSurfaceBrush" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="PinBorderBrush" Color="#E4E6E8" />
-        <SolidColorBrush x:Key="PinTextBrush" Color="#1A1A1A" />
-        <SolidColorBrush x:Key="PinMutedBrush" Color="#6B7280" />
-        <SolidColorBrush x:Key="PinAccentBrush" Color="#3F51B5" />
-        <SolidColorBrush x:Key="PinAccentSoftBrush" Color="#EEF2FF" />
 
         <Style x:Key="PinKeypadButton" TargetType="Button">
             <Setter Property="Height" Value="52" />
             <Setter Property="Margin" Value="4" />
             <Setter Property="FontSize" Value="21" />
             <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{StaticResource PinTextBrush}" />
-            <Setter Property="Background" Value="#F8FAFC" />
+            <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource AppSurfaceAltBrush}" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="Root"
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource PinBorderBrush}"
+                                BorderBrush="{DynamicResource AppBorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="Center"
@@ -38,14 +31,14 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Root" Property="Background" Value="{StaticResource PinAccentSoftBrush}" />
-                                <Setter TargetName="Root" Property="BorderBrush" Value="#C7D2FE" />
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource AppAccentSoftBrush}" />
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource AppAccentBorderBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Root" Property="Background" Value="#E0E7FF" />
+                                <Setter TargetName="Root" Property="Background" Value="{DynamicResource AppAccentSoftBrush}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource PinAccentBrush}" />
+                                <Setter TargetName="Root" Property="BorderBrush" Value="{DynamicResource AppAccentBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Root" Property="Opacity" Value="0.45" />
@@ -57,11 +50,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource PinBackgroundBrush}">
+    <Grid Background="{DynamicResource AppBackgroundBrush}">
         <Button Content="← Volver"
                 Command="{Binding BackCommand}"
                 Style="{StaticResource MaterialDesignFlatButton}"
-                Foreground="#4B5563"
+                Foreground="{DynamicResource AppTextBrush}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Height="36"
@@ -71,8 +64,8 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Width="420">
-            <Border Background="{StaticResource PinSurfaceBrush}"
-                    BorderBrush="{StaticResource PinBorderBrush}"
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="16"
                     Padding="32">
@@ -88,9 +81,9 @@
                     <!-- Operario -->
                     <Border Width="68" Height="68" CornerRadius="34"
                             HorizontalAlignment="Center"
-                            Background="{StaticResource PinAccentBrush}">
+                            Background="{DynamicResource AppAccentBrush}">
                         <TextBlock Text="{Binding Initials}"
-                                   Foreground="White"
+                                   Foreground="{DynamicResource AppOnAccentBrush}"
                                    FontSize="23" FontWeight="Bold"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
@@ -98,33 +91,33 @@
 
                     <TextBlock Text="{Binding OperatorName}"
                                FontSize="22" FontWeight="Bold"
-                               Foreground="{StaticResource PinTextBrush}"
+                               Foreground="{DynamicResource AppTextBrush}"
                                HorizontalAlignment="Center"
                                TextTrimming="CharacterEllipsis"
                                Margin="0,14,0,4" />
 
                     <TextBlock Text="Ingresa tu PIN de 4 dígitos"
                                FontSize="13"
-                               Foreground="{StaticResource PinMutedBrush}"
+                               Foreground="{DynamicResource AppMutedBrush}"
                                HorizontalAlignment="Center" />
 
                     <!-- Indicador de PIN -->
-                    <Border Background="#F8FAFC"
-                            BorderBrush="{StaticResource PinBorderBrush}"
+                    <Border Background="{DynamicResource AppSurfaceAltBrush}"
+                            BorderBrush="{DynamicResource AppBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="12"
                             Height="56"
                             Margin="0,20,0,16">
                         <TextBlock Text="{Binding PinDots}"
                                    FontSize="26"
-                                   Foreground="{StaticResource PinTextBrush}"
+                                   Foreground="{DynamicResource AppTextBrush}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />
                     </Border>
 
                     <!-- Error -->
-                    <Border Background="#FEF2F2"
-                            BorderBrush="#FECACA"
+                    <Border Background="{DynamicResource AppDangerBackgroundBrush}"
+                            BorderBrush="{DynamicResource AppDangerBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="10,8"
@@ -139,21 +132,21 @@
                             <materialDesign:PackIcon Grid.Column="0"
                                                      Kind="AlertCircleOutline"
                                                      Width="16" Height="16"
-                                                     Foreground="#B91C1C"
+                                                     Foreground="{DynamicResource AppDangerTextBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
                             <TextBlock Grid.Column="1"
                                        Text="{Binding ErrorMessage}"
                                        FontSize="12"
-                                       Foreground="#B91C1C"
+                                       Foreground="{DynamicResource AppDangerTextBrush}"
                                        TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
                         </Grid>
                     </Border>
 
                     <!-- Bloqueo temporal -->
-                    <Border Background="#FFF7E6"
-                            BorderBrush="#F59E0B"
+                    <Border Background="{DynamicResource AppWarningBackgroundBrush}"
+                            BorderBrush="{DynamicResource AppWarningBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Padding="10,8"
@@ -168,13 +161,13 @@
                             <materialDesign:PackIcon Grid.Column="0"
                                                      Kind="LockOutline"
                                                      Width="16" Height="16"
-                                                     Foreground="#B45309"
+                                                     Foreground="{DynamicResource AppWarningTextBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
                             <TextBlock Grid.Column="1"
                                        Text="{Binding LockMessage}"
                                        FontSize="12"
-                                       Foreground="#92400E"
+                                       Foreground="{DynamicResource AppWarningTextBrush}"
                                        TextWrapping="Wrap"
                                        VerticalAlignment="Center" />
                         </Grid>
@@ -208,7 +201,7 @@
                                 Command="{Binding BackspaceCommand}" ToolTip="Borrar">
                             <materialDesign:PackIcon Kind="BackspaceOutline"
                                                      Width="22" Height="22"
-                                                     Foreground="{StaticResource PinTextBrush}" />
+                                                     Foreground="{DynamicResource AppTextBrush}" />
                         </Button>
                     </UniformGrid>
 
@@ -217,12 +210,12 @@
                                 Margin="0,16,0,0">
                         <materialDesign:PackIcon Kind="ShieldLockOutline"
                                                  Width="15" Height="15"
-                                                 Foreground="{StaticResource PinMutedBrush}"
+                                                 Foreground="{DynamicResource AppMutedBrush}"
                                                  VerticalAlignment="Center"
                                                  Margin="0,0,6,0" />
                         <TextBlock Text="Validación local y sin conexión"
                                    FontSize="11"
-                                   Foreground="{StaticResource PinMutedBrush}"
+                                   Foreground="{DynamicResource AppMutedBrush}"
                                    VerticalAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
