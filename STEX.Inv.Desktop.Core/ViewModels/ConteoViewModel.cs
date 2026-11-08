@@ -356,7 +356,9 @@ public partial class ConteoViewModel : ViewModelBase
 
         if (!TryParseDecimal(PesoNetoText, out var pesoNeto) || pesoNeto < 0)
         {
-            SetStatus("Ingresa un peso neto válido en kilogramos.", true);
+            SetStatus(
+                "Peso neto inválido. Usa coma o punto para decimales (ej. 1,5) y no uses separador de miles.",
+                true);
             return;
         }
 
@@ -573,13 +575,36 @@ public partial class ConteoViewModel : ViewModelBase
         return observacion.Trim();
     }
 
-    private static bool TryParseDecimal(string text, out decimal value)
+    private static bool TryParseDecimal(string? text, out decimal value)
     {
-        return decimal.TryParse(text, NumberStyles.Number, CultureInfo.CurrentCulture, out value)
-               || decimal.TryParse(
-                   text.Replace(',', '.'),
-                   NumberStyles.Number,
-                   CultureInfo.InvariantCulture,
-                   out value);
+        value = 0;
+
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return false;
+        }
+
+        var normalized = text.Trim();
+
+        var lastComma = normalized.LastIndexOf(',');
+        var lastDot = normalized.LastIndexOf('.');
+
+        if (lastComma >= 0 && lastDot >= 0)
+        {
+            var decimalSeparator = lastComma > lastDot ? ',' : '.';
+            var groupSeparator = decimalSeparator == ',' ? '.' : ',';
+            normalized = normalized.Replace(groupSeparator.ToString(), string.Empty, StringComparison.Ordinal);
+            normalized = normalized.Replace(decimalSeparator, '.');
+        }
+        else if (lastComma >= 0)
+        {
+            normalized = normalized.Replace(',', '.');
+        }
+
+        return decimal.TryParse(
+            normalized,
+            NumberStyles.AllowDecimalPoint,
+            CultureInfo.InvariantCulture,
+            out value);
     }
 }
