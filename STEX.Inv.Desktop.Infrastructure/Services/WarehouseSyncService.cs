@@ -169,12 +169,19 @@ public sealed class WarehouseSyncService : IWarehouseSyncService
                 "No se pudo identificar el almacén. Vuelve a sincronizar el equipo.");
         }
 
-        // Un libro remoto por campaña y por lote pendiente. Agrupar por LibroId
-        // conserva el mismo identificador cuando un envío anterior quedó a medias.
+        if (pending.Any(c => c.OperarioId == Guid.Empty))
+        {
+            return UploadOutcome.Fail(
+                "Hay un conteo sin operario. Vuelve a registrar ese conteo.");
+        }
+
+        // Un libro remoto por campaña y operario. Agrupar por LibroId conserva
+        // el mismo identificador cuando un envío anterior quedó a medias.
         var batches = pending
-            .GroupBy(c => new { c.CampanaId, c.LibroId })
+            .GroupBy(c => new { c.CampanaId, c.OperarioId, c.LibroId })
             .Select(g => new UploadBatch(
                 g.Key.CampanaId,
+                g.Key.OperarioId,
                 g.Key.LibroId ?? Guid.NewGuid(),
                 g.ToList()))
             .ToList();
@@ -208,6 +215,7 @@ public sealed class WarehouseSyncService : IWarehouseSyncService
                 LibroId = batch.LibroId,
                 CampanaId = batch.CampanaId,
                 AlmacenId = almacenId.Value,
+                OperarioId = batch.OperarioId,
                 Detalles = batch.Lines
                     .Select(l => new SyncUploadDetalleDto
                     {
@@ -216,7 +224,10 @@ public sealed class WarehouseSyncService : IWarehouseSyncService
                         PesoNeto = l.PesoNeto,
                         Observacion = string.IsNullOrWhiteSpace(l.Observacion)
                             ? null
-                            : l.Observacion.Trim()
+                            : l.Observacion.Trim(),
+                        Presentacion = string.IsNullOrWhiteSpace(l.Presentacion)
+                            ? null
+                            : l.Presentacion.Trim()
                     })
                     .ToList()
             };
@@ -318,7 +329,11 @@ public sealed class WarehouseSyncService : IWarehouseSyncService
         return new SyncResult(status, message);
     }
 
-    private sealed record UploadBatch(Guid CampanaId, Guid LibroId, List<ConteoLinea> Lines);
+    private sealed record UploadBatch(
+        Guid CampanaId,
+        Guid OperarioId,
+        Guid LibroId,
+        List<ConteoLinea> Lines);
 
     private sealed record UploadOutcome(
         bool IsSuccess,
