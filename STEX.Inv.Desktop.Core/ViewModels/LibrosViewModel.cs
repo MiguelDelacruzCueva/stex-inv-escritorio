@@ -121,17 +121,18 @@ public partial class LibrosViewModel : ViewModelBase
 
         Libros.Clear();
         foreach (var grupo in state.Conteos
-                     .GroupBy(c => c.CampanaId)
+                     .GroupBy(c => new { c.CampanaId, c.OperarioId, c.LibroId })
                      .OrderByDescending(g => g.Max(c => c.CreatedAtUtc)))
         {
             var primera = grupo.First();
             Libros.Add(new LibroResumen(
-                grupo.Key,
+                grupo.Key.CampanaId,
+                grupo.Key.LibroId,
                 string.IsNullOrWhiteSpace(primera.CampanaNombre) ? "Campaña" : primera.CampanaNombre,
+                string.IsNullOrWhiteSpace(primera.OperarioNombre) ? "Operario" : primera.OperarioNombre,
                 grupo.Count(),
                 grupo.Sum(c => c.Unidades),
                 grupo.Sum(c => c.PesoNeto),
-                grupo.Select(c => c.OperarioId).Distinct().Count(),
                 grupo.Max(c => c.CreatedAtUtc),
                 grupo.Count(c => c.UploadedAtUtc is null),
                 grupo.Count(c => c.UploadedAtUtc is not null),
@@ -146,11 +147,12 @@ public partial class LibrosViewModel : ViewModelBase
 
 public sealed record LibroResumen(
     Guid CampanaId,
+    Guid? LibroId,
     string CampanaNombre,
+    string OperarioNombre,
     int Registros,
     int Unidades,
     decimal PesoNeto,
-    int Operarios,
     DateTimeOffset UltimaActualizacion,
     int Pendientes,
     int Subidos,
@@ -160,6 +162,10 @@ public sealed record LibroResumen(
         UltimaActualizacion.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
 
     public string PesoNetoTexto => $"{PesoNeto:0.##} kg";
+
+    public string LibroIdTexto => LibroId is null
+        ? "Borrador local"
+        : $"Libro {LibroId.Value.ToString("N")[..8]}";
 
     public bool Sincronizado => Pendientes == 0;
 
