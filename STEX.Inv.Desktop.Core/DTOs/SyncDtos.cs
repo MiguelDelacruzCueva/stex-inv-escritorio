@@ -114,6 +114,9 @@ public sealed class SyncUploadRequestDto
     [JsonPropertyName("almacen_id")]
     public Guid AlmacenId { get; set; }
 
+    [JsonPropertyName("operario_id")]
+    public Guid OperarioId { get; set; }
+
     [JsonPropertyName("detalles")]
     public List<SyncUploadDetalleDto> Detalles { get; set; } = new();
 }
@@ -131,6 +134,9 @@ public sealed class SyncUploadDetalleDto
 
     [JsonPropertyName("observacion")]
     public string? Observacion { get; set; }
+
+    [JsonPropertyName("presentacion")]
+    public string? Presentacion { get; set; }
 }
 
 public sealed class SyncUploadResponseDto
