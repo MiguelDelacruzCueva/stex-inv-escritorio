@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STEX.Inv.Desktop.Core.Interfaces;
+using STEX.Inv.Desktop.Core.Models;
 
 namespace STEX.Inv.Desktop.Core.ViewModels;
 
@@ -14,6 +15,8 @@ public partial class ProfileViewModel : ViewModelBase
     private readonly ILocalStore _localStore;
     private readonly INavigationService _navigation;
     private readonly IDialogService _dialogs;
+    private readonly IThemeService _themeService;
+    private bool _loadingTheme;
 
     [ObservableProperty]
     private string _operatorName = "Operario";
@@ -45,18 +48,30 @@ public partial class ProfileViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isSessionExpired;
 
+    [ObservableProperty]
+    private ThemeOption? _selectedTheme;
+
+    public IReadOnlyList<ThemeOption> ThemeOptions { get; } =
+    [
+        new(ThemeMode.Light, "Claro"),
+        new(ThemeMode.Dark, "Oscuro"),
+        new(ThemeMode.System, "Sistema")
+    ];
+
     public ProfileViewModel(
         IOperatorSession operatorSession,
         IDeviceSessionService deviceSession,
         ILocalStore localStore,
         INavigationService navigation,
-        IDialogService dialogs)
+        IDialogService dialogs,
+        IThemeService themeService)
     {
         _operatorSession = operatorSession;
         _deviceSession = deviceSession;
         _localStore = localStore;
         _navigation = navigation;
         _dialogs = dialogs;
+        _themeService = themeService;
     }
 
     public override async Task InitializeAsync(object? parameter = null)
@@ -83,6 +98,33 @@ public partial class ProfileViewModel : ViewModelBase
 
         IsSessionExpired = device?.IsTokenExpired ?? false;
         SessionStatus = IsSessionExpired ? "Sesión vencida" : "Sesión activa";
+
+        _loadingTheme = true;
+        SelectedTheme = ThemeOptions.FirstOrDefault(t => t.Mode == _themeService.Current)
+                        ?? ThemeOptions[^1];
+        _loadingTheme = false;
+    }
+
+    partial void OnSelectedThemeChanged(ThemeOption? value)
+    {
+        if (_loadingTheme || value is null)
+        {
+            return;
+        }
+
+        _ = ApplyThemeAsync(value.Mode);
+    }
+
+    private async Task ApplyThemeAsync(ThemeMode mode)
+    {
+        try
+        {
+            await _themeService.SetThemeAsync(mode);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"No se pudo aplicar el tema: {ex}");
+        }
     }
 
     [RelayCommand]
@@ -110,3 +152,5 @@ public partial class ProfileViewModel : ViewModelBase
         await _navigation.NavigateToAsync<EnrollmentViewModel>();
     }
 }
+
+public sealed record ThemeOption(ThemeMode Mode, string Label);
