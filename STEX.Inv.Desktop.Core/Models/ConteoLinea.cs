@@ -8,6 +8,9 @@ public sealed class ConteoLinea
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    /// <summary>Libro local al que pertenece la línea; no cambia al reenviar.</summary>
+    public Guid LibroLocalId { get; set; }
+
     public Guid CampanaId { get; set; }
 
     public string CampanaNombre { get; set; } = string.Empty;
@@ -23,6 +26,8 @@ public sealed class ConteoLinea
     public string MaterialDescripcion { get; set; } = string.Empty;
 
     public string? KardexNumero { get; set; }
+
+    public string Unidad { get; set; } = string.Empty;
 
     public string Tipo { get; set; } = string.Empty;
 

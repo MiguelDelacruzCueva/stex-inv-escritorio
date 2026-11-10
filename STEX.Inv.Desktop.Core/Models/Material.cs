@@ -15,6 +15,8 @@ public sealed class Material
 
     public string Descripcion { get; set; } = string.Empty;
 
+    public string Unidad { get; set; } = string.Empty;
+
     public string? Tipo { get; set; }
 
     [JsonIgnore]

@@ -15,6 +15,8 @@ public sealed class LocalState
 
     public List<Material> Materiales { get; set; } = new();
 
+    public List<LibroLocal> Libros { get; set; } = new();
+
     public List<ConteoLinea> Conteos { get; set; } = new();
 
     public int MaterialesCount { get; set; }
@@ -22,6 +24,8 @@ public sealed class LocalState
     public DateTimeOffset? LastSyncUtc { get; set; }
 
     public string? LastSyncError { get; set; }
+
+    public string? LastSyncErrorCode { get; set; }
 
     public Dictionary<Guid, PinAttempt> PinAttempts { get; set; } = new();
 }
@@ -35,6 +39,8 @@ public sealed class CampanaResumen
     public DateTimeOffset? FechaInicio { get; set; }
 
     public DateTimeOffset? FechaFin { get; set; }
+
+    public string Estado { get; set; } = "Abierta";
 
     [JsonIgnore]
     public string RangoFechas
