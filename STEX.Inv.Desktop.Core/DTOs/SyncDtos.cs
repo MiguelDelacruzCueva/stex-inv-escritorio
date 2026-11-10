@@ -46,6 +46,9 @@ public sealed class SyncCampanaDto
 
     [JsonPropertyName("fecha_fin")]
     public DateTimeOffset? FechaFin { get; set; }
+
+    [JsonPropertyName("estado")]
+    public string? Estado { get; set; }
 }
 
 public sealed class SyncAlmacenDto
@@ -79,6 +82,9 @@ public sealed class SyncMaterialDto
 
     [JsonPropertyName("descripcion")]
     public string Descripcion { get; set; } = string.Empty;
+
+    [JsonPropertyName("unidad")]
+    public string? Unidad { get; set; }
 
     [JsonPropertyName("tipo")]
     public string? Tipo { get; set; }
@@ -150,6 +156,9 @@ public sealed class SyncUploadResponseDto
     [JsonPropertyName("duplicado")]
     public bool Duplicado { get; set; }
 
+    [JsonPropertyName("code")]
+    public string? Code { get; set; }
+
     [JsonPropertyName("error")]
     public string? Error { get; set; }
 }
@@ -166,7 +175,8 @@ public sealed record SyncResult(
     string? ErrorMessage = null,
     int Operarios = 0,
     int UploadedCount = 0,
-    int UploadedBooks = 0)
+    int UploadedBooks = 0,
+    string? Code = null)
 {
     public bool IsSuccess => Status == SyncStatus.Success;
 }
