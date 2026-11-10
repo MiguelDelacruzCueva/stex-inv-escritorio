@@ -37,6 +37,7 @@ public partial class App : Application
                 services.AddSingleton<IDeviceSessionService, DeviceSessionService>();
                 services.AddSingleton<IOperatorSession, OperatorSession>();
                 services.AddSingleton<IDialogService, MessageDialogService>();
+                services.AddSingleton<IFileDialogService, FileDialogService>();
                 services.AddSingleton<IThemeService, ThemeService>();
                 services.AddTransient<JwtAuthenticationHandler>();
 
@@ -67,6 +68,7 @@ public partial class App : Application
                 // Servicios de aplicación
                 services.AddSingleton<IAuthService, AuthService>();
                 services.AddSingleton<IWarehouseSyncService, WarehouseSyncService>();
+                services.AddSingleton<IBookExportService, BookExportService>();
 
                 // ViewModels
                 services.AddSingleton<MainViewModel>();
