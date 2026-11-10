@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <UserControl.Resources>
-    </UserControl.Resources>
-
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
                   Background="{DynamicResource AppBackgroundBrush}">
@@ -13,7 +10,7 @@
             <TextBlock Text="Sincronización"
                        FontSize="30" FontWeight="Black"
                        Foreground="{DynamicResource AppTextBrush}" />
-            <TextBlock Text="Sube los conteos pendientes y actualiza los maestros del almacén."
+            <TextBlock Text="Selecciona los libros pendientes para subirlos y actualiza los maestros del almacén."
                        FontSize="14"
                        Foreground="{DynamicResource AppMutedBrush}"
                        Margin="0,6,0,24" />
@@ -51,7 +48,7 @@
                     </StackPanel>
 
                     <Button Grid.Column="2"
-                            Content="Sincronizar ahora"
+                            Content="Actualizar datos"
                             Command="{Binding SyncCommand}"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="42"
@@ -201,6 +198,167 @@
                 </StackPanel>
             </Border>
 
+            <Border CornerRadius="8"
+                    Padding="12,10"
+                    Margin="0,16,0,0"
+                    Background="{DynamicResource AppDangerBackgroundBrush}"
+                    BorderBrush="{DynamicResource AppDangerBorderBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding HasDuplicateDrafts, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="AlertCircleOutline"
+                                             Width="20" Height="20"
+                                             Foreground="{DynamicResource AppDangerTextBrush}"
+                                             VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding DuplicateDraftsMessage}"
+                               FontSize="12"
+                               Foreground="{DynamicResource AppDangerTextBrush}"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="20"
+                    Margin="0,20,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Text="Libros pendientes"
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource AppTextBrush}" />
+                            <TextBlock Text="Solo se suben los libros marcados. Los bloqueados o no seleccionados siguen como borradores."
+                                       FontSize="12"
+                                       Foreground="{DynamicResource AppMutedBrush}"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <Button Content="Seleccionar todos"
+                                    Command="{Binding SelectAllCommand}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Foreground="{DynamicResource AppAccentTextBrush}"
+                                    Height="34"
+                                    Padding="10,0" />
+                            <Button Content="Limpiar"
+                                    Command="{Binding ClearSelectionCommand}"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Foreground="{DynamicResource AppMutedBrush}"
+                                    Height="34"
+                                    Padding="10,0"
+                                    Margin="4,0,8,0" />
+                            <Button Content="Subir seleccionados"
+                                    Command="{Binding UploadSelectedCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Background="{DynamicResource AppAccentBrush}"
+                                    Foreground="{DynamicResource AppOnAccentBrush}"
+                                    BorderThickness="0"
+                                    Height="34"
+                                    Padding="14,0" />
+                            <Button Content="Subir todos"
+                                    Command="{Binding UploadAllCommand}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    Foreground="{DynamicResource AppAccentTextBrush}"
+                                    BorderBrush="{DynamicResource AppAccentBrush}"
+                                    Height="34"
+                                    Padding="14,0"
+                                    Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Grid>
+
+                    <ItemsControl ItemsSource="{Binding PendingBooks}" Margin="0,14,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="0,10">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}" />
+                                            <Setter Property="BorderThickness" Value="0,1,0,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PuedeSubir}" Value="False">
+                                                    <Setter Property="Opacity" Value="0.6" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                  IsEnabled="{Binding PuedeSubir}"
+                                                  VerticalAlignment="Center"
+                                                  Margin="0,0,12,0"
+                                                  AutomationProperties.Name="Seleccionar libro para subir" />
+
+                                        <StackPanel Grid.Column="1" Margin="0,0,16,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding CampanaNombre}"
+                                                       FontSize="13" FontWeight="SemiBold"
+                                                       Foreground="{DynamicResource AppTextBrush}" />
+                                            <TextBlock Text="{Binding OperarioNombre, StringFormat=Operario: {0}}"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource AppMutedBrush}"
+                                                       Margin="0,2,0,0" />
+                                            <TextBlock Text="{Binding Bloqueo}"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource AppDangerTextBrush}"
+                                                       TextWrapping="Wrap"
+                                                       Margin="0,3,0,0"
+                                                       Visibility="{Binding Bloqueo, Converter={StaticResource StringToVisibilityConverter}}" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding EstadoTexto}"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       Foreground="{DynamicResource AppAccentDarkBrush}"
+                                                       HorizontalAlignment="Right" />
+                                            <TextBlock Text="{Binding DetalleTexto}"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource AppMutedBrush}"
+                                                       HorizontalAlignment="Right"
+                                                       Margin="0,2,0,0" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="No hay libros pendientes de subida. Los enviados y reemplazados no se muestran."
+                               FontSize="12"
+                               Foreground="{DynamicResource AppMutedBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,12,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasPendingBooks}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
             <Border Background="{DynamicResource AppSurfaceBrush}"
                     BorderBrush="{DynamicResource AppBorderBrush}"
                     BorderThickness="1"
@@ -214,10 +372,10 @@
                                              VerticalAlignment="Top"
                                              Margin="0,1,10,0" />
                     <StackPanel>
-                        <TextBlock Text="Conteos guardados localmente"
+                        <TextBlock Text="Subida manual"
                                    FontSize="13" FontWeight="SemiBold"
                                    Foreground="{DynamicResource AppTextBrush}" />
-                        <TextBlock Text="Al sincronizar se suben primero los conteos pendientes y luego se actualizan los maestros. Los conteos ya subidos no se envían de nuevo."
+                        <TextBlock Text="«Actualizar datos» solo descarga catálogos. La subida se hace con «Subir seleccionados» o «Subir todos». Un libro parcial se corrige creando una copia desde Libros."
                                    FontSize="12"
                                    Foreground="{DynamicResource AppMutedBrush}"
                                    TextWrapping="Wrap"

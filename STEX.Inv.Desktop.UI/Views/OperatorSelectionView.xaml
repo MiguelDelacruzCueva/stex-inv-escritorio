@@ -99,7 +99,7 @@
                                                      Foreground="{DynamicResource AppOnAccentBrush}"
                                                      VerticalAlignment="Center"
                                                      Margin="0,0,8,0" />
-                            <TextBlock Text="Sincronizar"
+                            <TextBlock Text="Actualizar"
                                        Foreground="{DynamicResource AppOnAccentBrush}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
@@ -310,13 +310,13 @@
                                        Foreground="{DynamicResource AppTextBrush}"
                                        HorizontalAlignment="Center"
                                        Margin="0,14,0,0" />
-                            <TextBlock Text="Sincroniza el almacén o ajusta la búsqueda."
+                            <TextBlock Text="Actualiza los datos del almacén o ajusta la búsqueda."
                                        FontSize="13"
                                        Foreground="{DynamicResource AppMutedBrush}"
                                        TextAlignment="Center"
                                        TextWrapping="Wrap"
                                        Margin="0,6,0,16" />
-                            <Button Content="Sincronizar ahora"
+                            <Button Content="Actualizar ahora"
                                     Command="{Binding SyncCommand}"
                                     Style="{StaticResource MaterialDesignOutlinedButton}"
                                     Foreground="{DynamicResource AppAccentTextBrush}"

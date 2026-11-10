@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <UserControl.Resources>
-    </UserControl.Resources>
-
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
                   Background="{DynamicResource AppBackgroundBrush}">
@@ -27,14 +24,6 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Content="Exportar CSV"
-                            Command="{Binding ExportCommand}"
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Foreground="{DynamicResource AppAccentTextBrush}"
-                            BorderBrush="{DynamicResource AppAccentBrush}"
-                            Height="38"
-                            Padding="16,0"
-                            Margin="0,0,8,0" />
                     <Button Content="Actualizar"
                             Command="{Binding RefreshCommand}"
                             Style="{StaticResource MaterialDesignOutlinedButton}"
@@ -76,6 +65,43 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+            </Border>
+
+            <Border CornerRadius="8"
+                    Padding="12,10"
+                    Margin="0,16,0,0"
+                    Background="{DynamicResource AppDangerBackgroundBrush}"
+                    BorderBrush="{DynamicResource AppDangerBorderBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding HasDuplicateDrafts, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="AlertCircleOutline"
+                                                 Width="20" Height="20"
+                                                 Foreground="{DynamicResource AppDangerTextBrush}"
+                                                 VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding DuplicateDraftsMessage}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource AppDangerTextBrush}"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,16,0" />
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Content="Resolver duplicados"
+                            Command="{Binding ResolveDuplicateDraftsCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Foreground="{DynamicResource AppDangerTextBrush}"
+                            BorderBrush="{DynamicResource AppDangerBorderBrush}"
+                            Height="34"
+                            Padding="12,0" />
+                </Grid>
             </Border>
 
             <UniformGrid Columns="3" Margin="0,24,0,0">
@@ -139,12 +165,45 @@
                 </Border>
             </UniformGrid>
 
-            <TextBlock Text="Libros de conteo"
-                       FontSize="15" FontWeight="SemiBold"
-                       Foreground="{DynamicResource AppTextBrush}"
-                       Margin="0,28,0,12" />
+            <Grid Margin="0,28,0,12"
+                  Visibility="{Binding HasLibros, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding Libros}"
+                <StackPanel>
+                    <TextBlock Text="Libros de conteo"
+                               FontSize="18" FontWeight="SemiBold"
+                               Foreground="{DynamicResource AppTextBrush}" />
+                    <TextBlock Text="Marca los libros para exportarlos. Copiar abre la elección de campaña."
+                               FontSize="12"
+                               Foreground="{DynamicResource AppMutedBrush}"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Button Content="Exportar seleccionados"
+                            Command="{Binding ExportSelectedCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            BorderBrush="{DynamicResource AppAccentBrush}"
+                            Height="36"
+                            Padding="14,0" />
+                    <Button Content="Descargar todos"
+                            Command="{Binding ExportAllCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            BorderBrush="{DynamicResource AppAccentBrush}"
+                            Height="36"
+                            Padding="14,0"
+                            Margin="8,0,0,0" />
+                </StackPanel>
+            </Grid>
+
+            <ItemsControl ItemsSource="{Binding PagedLibros}"
                           Visibility="{Binding HasLibros, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -158,11 +217,18 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Border Width="44" Height="44" CornerRadius="12"
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,14,0"
+                                              AutomationProperties.Name="Seleccionar libro para exportar" />
+
+                                    <Border Grid.Column="1"
+                                            Width="44" Height="44" CornerRadius="12"
                                             Background="{DynamicResource AppAccentSoftBrush}">
                                         <materialDesign:PackIcon Kind="BookOpenPageVariant"
                                                                  Width="22" Height="22"
@@ -171,7 +237,7 @@
                                                                  VerticalAlignment="Center" />
                                     </Border>
 
-                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                    <StackPanel Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding CampanaNombre}"
                                                    FontSize="16" FontWeight="SemiBold"
                                                    Foreground="{DynamicResource AppTextBrush}" />
@@ -185,7 +251,7 @@
                                                    Margin="0,2,0,0" />
                                     </StackPanel>
 
-                                    <Border Grid.Column="2"
+                                    <Border Grid.Column="3"
                                             CornerRadius="10"
                                             Padding="10,4"
                                             VerticalAlignment="Center">
@@ -255,6 +321,26 @@
                                     </StackPanel>
                                 </UniformGrid>
 
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,12,0,0">
+                                    <Button Content="Copiar"
+                                            Command="{Binding DataContext.CopyBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="{DynamicResource AppAccentTextBrush}"
+                                            Height="30"
+                                            Padding="10,0" />
+                                    <Button Content="Eliminar"
+                                            Command="{Binding DataContext.DeleteBookCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="{DynamicResource AppDangerTextBrush}"
+                                            Height="30"
+                                            Padding="10,0"
+                                            Margin="4,0,0,0" />
+                                </StackPanel>
+
                                 <Expander Header="Ver detalle"
                                           Margin="0,14,0,0"
                                           Foreground="{DynamicResource AppMutedBrush}">
@@ -317,6 +403,29 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
+            <Grid Margin="0,4,0,0"
+                  Visibility="{Binding HasMultiplePages, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Anterior"
+                            Command="{Binding PreviousPageCommand}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            Height="30"
+                            Padding="10,0" />
+                    <TextBlock Text="{Binding PageText}"
+                               FontSize="12"
+                               Foreground="{DynamicResource AppMutedBrush}"
+                               VerticalAlignment="Center"
+                               Margin="12,0" />
+                    <Button Content="Siguiente"
+                            Command="{Binding NextPageCommand}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="{DynamicResource AppAccentTextBrush}"
+                            Height="30"
+                            Padding="10,0" />
+                </StackPanel>
+            </Grid>
 
             <Border Background="{DynamicResource AppSurfaceBrush}"
                     BorderBrush="{DynamicResource AppBorderBrush}"

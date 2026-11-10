@@ -178,7 +178,7 @@
                             <TextBlock Text="Campañas disponibles"
                                        FontSize="17" FontWeight="SemiBold"
                                        Foreground="{DynamicResource AppTextBrush}" />
-                            <TextBlock Text="El equipo descargó estas campañas en la última sincronización."
+                            <TextBlock Text="Solo se muestran campañas abiertas y vigentes. Si ya tienes un borrador, usa Continuar."
                                        FontSize="12"
                                        Foreground="{DynamicResource AppMutedBrush}"
                                        Margin="0,3,0,16" />
@@ -229,13 +229,13 @@
                                                Foreground="{DynamicResource AppTextBrush}"
                                                HorizontalAlignment="Center"
                                                Margin="0,12,0,4" />
-                                    <TextBlock Text="Sincroniza el equipo para descargar las campañas abiertas."
+                                    <TextBlock Text="Actualiza los datos del equipo para descargar las campañas abiertas y vigentes."
                                                FontSize="12"
                                                Foreground="{DynamicResource AppMutedBrush}"
                                                TextAlignment="Center"
                                                TextWrapping="Wrap"
                                                MaxWidth="360" />
-                                    <Button Content="Sincronizar ahora"
+                                    <Button Content="Actualizar datos"
                                             Command="{Binding SyncCommand}"
                                             Style="{StaticResource MaterialDesignOutlinedButton}"
                                             Foreground="{DynamicResource AppAccentTextBrush}"
@@ -264,15 +264,25 @@
                                                Margin="0,2,0,0" />
                                 </StackPanel>
 
-                                <Button Grid.Column="1"
-                                        Content="Continuar"
-                                        Command="{Binding ContinueCommand}"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        Height="42"
-                                        Padding="24,0"
-                                        Background="{DynamicResource AppAccentBrush}"
-                                        Foreground="{DynamicResource AppOnAccentBrush}"
-                                        BorderThickness="0" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="Comenzar uno nuevo"
+                                            Command="{Binding NewBookCommand}"
+                                            ToolTip="Disponible cuando no tengas un borrador para esta campaña."
+                                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Foreground="{DynamicResource AppAccentTextBrush}"
+                                            BorderBrush="{DynamicResource AppAccentBrush}"
+                                            Height="42"
+                                            Padding="18,0"
+                                            Margin="0,0,10,0" />
+                                    <Button Content="Continuar"
+                                            Command="{Binding ContinueCommand}"
+                                            Style="{StaticResource MaterialDesignRaisedButton}"
+                                            Height="42"
+                                            Padding="24,0"
+                                            Background="{DynamicResource AppAccentBrush}"
+                                            Foreground="{DynamicResource AppOnAccentBrush}"
+                                            BorderThickness="0" />
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>
