@@ -43,9 +43,22 @@ public sealed class EncryptedJsonLocalStore : ILocalStore
             var encrypted = await File.ReadAllBytesAsync(_filePath, cancellationToken);
             var plain = ProtectedData.Unprotect(encrypted, Entropy, DataProtectionScope.CurrentUser);
 
-            var state = JsonSerializer.Deserialize<LocalState>(plain, SerializerOptions);
+            var state = JsonSerializer.Deserialize<LocalState>(plain, SerializerOptions)
+                ?? new LocalState();
 
-            return state ?? new LocalState();
+            if (LocalBookMigration.EnsureLocalBooks(state))
+            {
+                try
+                {
+                    await WriteCoreAsync(state, cancellationToken);
+                }
+                catch (Exception ex) when (ex is CryptographicException or IOException)
+                {
+                    // La migración queda en memoria; el próximo guardado la persiste.
+                }
+            }
+
+            return state;
         }
         catch (Exception ex) when (ex is CryptographicException or JsonException or IOException)
         {
@@ -64,18 +77,23 @@ public sealed class EncryptedJsonLocalStore : ILocalStore
 
         try
         {
-            var plain = JsonSerializer.SerializeToUtf8Bytes(state, SerializerOptions);
-            var encrypted = ProtectedData.Protect(plain, Entropy, DataProtectionScope.CurrentUser);
-
-            var tempPath = _filePath + ".tmp";
-            await File.WriteAllBytesAsync(tempPath, encrypted, cancellationToken);
-
-            File.Move(tempPath, _filePath, overwrite: true);
+            await WriteCoreAsync(state, cancellationToken);
         }
         finally
         {
             _gate.Release();
         }
+    }
+
+    private async Task WriteCoreAsync(LocalState state, CancellationToken cancellationToken)
+    {
+        var plain = JsonSerializer.SerializeToUtf8Bytes(state, SerializerOptions);
+        var encrypted = ProtectedData.Protect(plain, Entropy, DataProtectionScope.CurrentUser);
+
+        var tempPath = _filePath + ".tmp";
+        await File.WriteAllBytesAsync(tempPath, encrypted, cancellationToken);
+
+        File.Move(tempPath, _filePath, overwrite: true);
     }
 
     public async Task ClearAsync(CancellationToken cancellationToken = default)
