@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STEX.Inv.Desktop.Core.Interfaces;
 using STEX.Inv.Desktop.Core.Models;
+using STEX.Inv.Desktop.Core.Validation;
 
 namespace STEX.Inv.Desktop.Core.ViewModels;
 
@@ -67,7 +68,9 @@ public partial class OperatorSelectionViewModel : ViewModelBase
 
         WarehouseName = state.Device?.AlmacenDisplay ?? "Almacén";
         SessionExpired = state.Device?.IsTokenExpired ?? false;
-        StatusMessage = state.LastSyncError ?? string.Empty;
+        StatusMessage = string.IsNullOrWhiteSpace(state.LastSyncError)
+            ? string.Empty
+            : SyncErrorCatalog.Resolve(state.LastSyncErrorCode, state.LastSyncError).DisplayText;
 
         if (SessionExpired && string.IsNullOrWhiteSpace(StatusMessage))
         {
@@ -122,11 +125,13 @@ public partial class OperatorSelectionViewModel : ViewModelBase
 
         try
         {
-            var result = await _syncService.SyncAsync();
+            var result = await _syncService.SyncAsync(Array.Empty<Guid>());
 
             if (!result.IsSuccess)
             {
-                StatusMessage = result.ErrorMessage ?? "No se pudo sincronizar el almacén.";
+                StatusMessage = SyncErrorCatalog
+                    .Resolve(result.Code, result.ErrorMessage)
+                    .DisplayText;
                 HasStatusMessage = true;
             }
 

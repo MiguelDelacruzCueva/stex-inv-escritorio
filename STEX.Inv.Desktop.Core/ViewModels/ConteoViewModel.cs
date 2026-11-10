@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using STEX.Inv.Desktop.Core.Interfaces;
 using STEX.Inv.Desktop.Core.Models;
+using STEX.Inv.Desktop.Core.Validation;
 
 namespace STEX.Inv.Desktop.Core.ViewModels;
 
@@ -20,13 +21,21 @@ public partial class ConteoViewModel : ViewModelBase
     private readonly IWarehouseSyncService _syncService;
 
     private readonly List<Material> _allMaterials = new();
+    private readonly HashSet<Guid> _draftCampaignIds = new();
     private bool _updatingMaterialText;
     private ConteoLinea? _editingLine;
+    private Guid? _activeLibroLocalId;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
+    [NotifyCanExecuteChangedFor(nameof(NewBookCommand))]
     [NotifyPropertyChangedFor(nameof(CampaignName))]
     private CampanaResumen? _selectedCampaign;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
+    [NotifyCanExecuteChangedFor(nameof(NewBookCommand))]
+    private bool _hasDraftForCampaign;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsFormVisible))]
@@ -93,6 +102,8 @@ public partial class ConteoViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AddCommand))]
     [NotifyCanExecuteChangedFor(nameof(SyncCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
+    [NotifyCanExecuteChangedFor(nameof(NewBookCommand))]
     private bool _isBusy;
 
     public ObservableCollection<CampanaResumen> Campanas { get; } = new();
@@ -157,21 +168,38 @@ public partial class ConteoViewModel : ViewModelBase
 
     public override async Task InitializeAsync(object? parameter = null)
     {
+        _activeLibroLocalId = null;
         ClearForm();
 
         var state = await _localStore.LoadAsync();
+        var operario = _operatorSession.Current;
 
         WarehouseName = state.Device?.AlmacenDisplay ?? "Almacén";
-        OperatorName = _operatorSession.Current?.NombreCompleto ?? "Operario";
+        OperatorName = operario?.NombreCompleto ?? "Operario";
+
+        _draftCampaignIds.Clear();
+        if (operario is not null)
+        {
+            foreach (var draft in state.Libros.Where(b =>
+                         b.OperarioId == operario.Id
+                         && b.Estado == EstadoLibroLocal.Borrador))
+            {
+                _draftCampaignIds.Add(draft.CampanaId);
+            }
+        }
 
         Campanas.Clear();
-        foreach (var campana in state.Campanas.OrderBy(c => c.FechaInicio))
+        foreach (var campana in CampaignRules
+                     .Available(state.Campanas, DateTimeOffset.UtcNow)
+                     .OrderBy(c => c.FechaInicio))
         {
             Campanas.Add(campana);
         }
 
         HasCampaigns = Campanas.Count > 0;
         SelectedCampaign = Campanas.Count == 1 ? Campanas[0] : null;
+        HasDraftForCampaign = SelectedCampaign is not null
+                              && _draftCampaignIds.Contains(SelectedCampaign.Id);
 
         _allMaterials.Clear();
         _allMaterials.AddRange(state.Materiales.OrderBy(m => m.Descripcion));
@@ -179,6 +207,12 @@ public partial class ConteoViewModel : ViewModelBase
         ApplyMaterialFilter();
         IsSelectingCampaign = true;
         SetStatus(string.Empty, false);
+    }
+
+    partial void OnSelectedCampaignChanged(CampanaResumen? value)
+    {
+        HasDraftForCampaign = value is not null
+                              && _draftCampaignIds.Contains(value.Id);
     }
 
     partial void OnTipoConteoChanged(string value)
@@ -266,12 +300,32 @@ public partial class ConteoViewModel : ViewModelBase
             return;
         }
 
-        var state = await _localStore.LoadAsync();
+        var operario = _operatorSession.Current;
+        if (operario is null)
+        {
+            SetStatus("No hay un operario autenticado. Vuelve a ingresar tu PIN.", true);
+            return;
+        }
 
+        var state = await _localStore.LoadAsync();
+        var book = state.Libros
+            .Where(b => b.CampanaId == SelectedCampaign.Id
+                        && b.OperarioId == operario.Id
+                        && b.Estado == EstadoLibroLocal.Borrador)
+            .OrderByDescending(b => b.CreadoAtUtc)
+            .FirstOrDefault();
+
+        if (book is null)
+        {
+            SetStatus("No tienes un libro en borrador para esta campaña. Usa “Comenzar uno nuevo”.", true);
+            return;
+        }
+
+        _activeLibroLocalId = book.Id;
         Registros.Clear();
         foreach (var linea in state.Conteos
-                     .Where(c => c.CampanaId == SelectedCampaign.Id)
-                     .OrderBy(c => c.CreatedAtUtc))
+                     .Where(c => c.LibroLocalId == book.Id)
+                     .OrderByDescending(c => c.CreatedAtUtc))
         {
             Registros.Add(linea);
         }
@@ -289,12 +343,35 @@ public partial class ConteoViewModel : ViewModelBase
         }
     }
 
-    private bool CanContinue() => SelectedCampaign is not null;
+    [RelayCommand(CanExecute = nameof(CanStartNewBook))]
+    private void NewBook()
+    {
+        if (SelectedCampaign is null)
+        {
+            return;
+        }
+
+        _activeLibroLocalId = null;
+        Registros.Clear();
+        ClearForm();
+        UpdateSummary();
+        IsSelectingCampaign = false;
+        SetStatus("Nuevo libro. Se creará al guardar el primer registro.", false);
+    }
+
+    private bool CanContinue() =>
+        SelectedCampaign is not null && HasDraftForCampaign && !IsBusy;
+
+    private bool CanStartNewBook() =>
+        SelectedCampaign is not null && !HasDraftForCampaign && !IsBusy;
 
     [RelayCommand]
     private void ChangeCampaign()
     {
+        _activeLibroLocalId = null;
         ClearForm();
+        Registros.Clear();
+        UpdateSummary();
         IsSelectingCampaign = true;
         SetStatus(string.Empty, false);
     }
@@ -306,23 +383,19 @@ public partial class ConteoViewModel : ViewModelBase
 
         try
         {
-            var result = await _syncService.SyncAsync();
+            // Solo actualiza catálogos: la subida de libros se hace desde Sincronización.
+            var result = await _syncService.SyncAsync(Array.Empty<Guid>());
 
             if (!result.IsSuccess)
             {
-                SetStatus(result.ErrorMessage ?? "No se pudo sincronizar el equipo.", true);
+                SetStatus(
+                    SyncErrorCatalog.Resolve(result.Code, result.ErrorMessage).DisplayText,
+                    true);
                 return;
             }
 
             await InitializeAsync();
-            SetStatus(
-                result.UploadedCount switch
-                {
-                    0 => "Datos maestros actualizados.",
-                    1 => "Se subió 1 conteo y se actualizaron los datos maestros.",
-                    _ => $"Se subieron {result.UploadedCount} conteos y se actualizaron los datos maestros."
-                },
-                false);
+            SetStatus("Datos maestros actualizados.", false);
         }
         finally
         {
@@ -363,6 +436,12 @@ public partial class ConteoViewModel : ViewModelBase
         }
 
         var operario = _operatorSession.Current;
+        if (operario is null)
+        {
+            SetStatus("No hay un operario autenticado. Vuelve a ingresar tu PIN.", true);
+            return;
+        }
+
         var observacion = NormalizeObservacion(Observacion);
         var editing = _editingLine;
 
@@ -388,12 +467,20 @@ public partial class ConteoViewModel : ViewModelBase
                     return;
                 }
 
+                var existingBook = state.Libros.FirstOrDefault(b => b.Id == existing.LibroLocalId);
+                if (existingBook is null || existingBook.Estado != EstadoLibroLocal.Borrador)
+                {
+                    SetStatus("El libro de este registro ya no está en borrador.", true);
+                    return;
+                }
+
                 existing.CampanaId = SelectedCampaign.Id;
                 existing.CampanaNombre = SelectedCampaign.Nombre;
                 existing.MaterialId = SelectedMaterial.Id;
                 existing.MaterialCodigo = SelectedMaterial.CodigoInterno;
                 existing.MaterialDescripcion = SelectedMaterial.Descripcion;
                 existing.KardexNumero = SelectedMaterial.KardexNumero;
+                existing.Unidad = SelectedMaterial.Unidad;
                 existing.Tipo = TipoConteo;
                 existing.Unidades = unidades;
                 existing.Presentacion = Presentacion;
@@ -418,16 +505,49 @@ public partial class ConteoViewModel : ViewModelBase
                 return;
             }
 
+            var book = state.Libros.FirstOrDefault(b => b.Id == _activeLibroLocalId);
+            if (book is null)
+            {
+                if (_activeLibroLocalId is not null)
+                {
+                    SetStatus("El libro local ya no existe. Vuelve a seleccionar la campaña.", true);
+                    return;
+                }
+
+                book = new LibroLocal
+                {
+                    CampanaId = SelectedCampaign.Id,
+                    CampanaNombre = SelectedCampaign.Nombre,
+                    OperarioId = operario.Id,
+                    OperarioNombre = operario.NombreCompleto,
+                    CreadoAtUtc = DateTimeOffset.UtcNow
+                };
+                state.Libros.Add(book);
+                _activeLibroLocalId = book.Id;
+                _draftCampaignIds.Add(book.CampanaId);
+                HasDraftForCampaign = true;
+            }
+
+            if (book.Estado != EstadoLibroLocal.Borrador
+                || book.CampanaId != SelectedCampaign.Id
+                || book.OperarioId != operario.Id)
+            {
+                SetStatus("El libro activo no está disponible para este operario y campaña.", true);
+                return;
+            }
+
             var linea = new ConteoLinea
             {
+                LibroLocalId = book.Id,
                 CampanaId = SelectedCampaign.Id,
                 CampanaNombre = SelectedCampaign.Nombre,
-                OperarioId = operario?.Id ?? Guid.Empty,
-                OperarioNombre = operario?.NombreCompleto ?? "Operario",
+                OperarioId = operario.Id,
+                OperarioNombre = operario.NombreCompleto,
                 MaterialId = SelectedMaterial.Id,
                 MaterialCodigo = SelectedMaterial.CodigoInterno,
                 MaterialDescripcion = SelectedMaterial.Descripcion,
                 KardexNumero = SelectedMaterial.KardexNumero,
+                Unidad = SelectedMaterial.Unidad,
                 Tipo = TipoConteo,
                 Unidades = unidades,
                 Presentacion = Presentacion,
@@ -438,7 +558,7 @@ public partial class ConteoViewModel : ViewModelBase
             state.Conteos.Add(linea);
             await _localStore.SaveAsync(state);
 
-            Registros.Add(linea);
+            Registros.Insert(0, linea);
             UpdateSummary();
             ClearForm();
             SetStatus("Conteo agregado correctamente.", false);
@@ -500,6 +620,12 @@ public partial class ConteoViewModel : ViewModelBase
             return;
         }
 
+        if (linea.UploadedAtUtc is not null || linea.LibroId is not null)
+        {
+            SetStatus("Este registro ya inició su subida y no se puede eliminar.", true);
+            return;
+        }
+
         IsBusy = true;
 
         try
@@ -507,6 +633,16 @@ public partial class ConteoViewModel : ViewModelBase
             var state = await _localStore.LoadAsync();
             if (state.Conteos.RemoveAll(c => c.Id == linea.Id) > 0)
             {
+                if (linea.LibroLocalId != Guid.Empty
+                    && !state.Conteos.Any(c => c.LibroLocalId == linea.LibroLocalId))
+                {
+                    state.Libros.RemoveAll(b => b.Id == linea.LibroLocalId);
+                    if (_activeLibroLocalId == linea.LibroLocalId)
+                    {
+                        _activeLibroLocalId = null;
+                    }
+                }
+
                 await _localStore.SaveAsync(state);
             }
 

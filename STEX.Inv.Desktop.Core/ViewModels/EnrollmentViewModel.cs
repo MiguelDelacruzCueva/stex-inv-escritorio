@@ -103,7 +103,7 @@ public partial class EnrollmentViewModel : ViewModelBase
 
             // Si falla la sync el equipo queda vinculado igualmente; la pantalla
             // de operarios mostrará el error y permitirá reintentar.
-            await _syncService.SyncAsync();
+            await _syncService.SyncAsync(Array.Empty<Guid>());
 
             await _navigation.NavigateToAsync<OperatorSelectionViewModel>();
         }
